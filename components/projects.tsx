@@ -77,7 +77,7 @@ export default function Projects()
                             <div className="text-lg">Features:</div>
                             <div className="flex flex-col">
                                 {project.features.map((feature, featurei)=>(
-                                    <div className="flex items-start primaryStrongs" style={{'--strongColor':project.color}} key={featurei}><div className="w-[18px]"><VscDebugBreakpointDataUnverified className="mr-2 mt-1"/></div> {feature}</div>
+                                    <div className="flex items-start primaryStrongs" style={{'--strongColor':project.color} as React.CSSProperties} key={featurei}><div className="w-[18px]"><VscDebugBreakpointDataUnverified className="mr-2 mt-1"/></div> {feature}</div>
                                 ))}
                             </div>
                         </div>

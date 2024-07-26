@@ -25,7 +25,7 @@ export default function ThemeProvider({children}:{children: React.ReactNode})
     },[])
 
     return (
-        <div style={{'--primaryColor': primaryColor}}>
+        <div style={{'--primaryColor': primaryColor} as React.CSSProperties}>
             <div id = 'themeDiv' className="hidden">{primaryColor}</div>
             {children}
         </div>

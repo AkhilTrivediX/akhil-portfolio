@@ -73,7 +73,7 @@ export default function Experience()
                             <div className="text-lg">Responsibilities:</div>
                             <div className="flex flex-col">
                                 {experience.features.map((feature, featurei)=>(
-                                    <div className="flex items-start primaryStrongs" key={featurei} style={{'--strongColor':experience.color}}><div className="w-[18px]"><VscDebugBreakpointDataUnverified className="mr-2 mt-1"/></div> {feature}</div>
+                                    <div className="flex items-start primaryStrongs" key={featurei} style={{'--strongColor':experience.color} as React.CSSProperties}><div className="w-[18px]"><VscDebugBreakpointDataUnverified className="mr-2 mt-1"/></div> {feature}</div>
                                 ))}
                             </div>
                         </div>
