@@ -76,8 +76,8 @@ export default function Projects()
                         <div>
                             <div className="text-lg">Features:</div>
                             <div className="flex flex-col">
-                                {project.features.map((feature, i)=>(
-                                    <div className="flex items-start primaryStrongs" style={{'--strongColor':project.color}}><div className="w-[18px]"><VscDebugBreakpointDataUnverified className="mr-2 mt-1"/></div> {feature}</div>
+                                {project.features.map((feature, featurei)=>(
+                                    <div className="flex items-start primaryStrongs" style={{'--strongColor':project.color}} key={featurei}><div className="w-[18px]"><VscDebugBreakpointDataUnverified className="mr-2 mt-1"/></div> {feature}</div>
                                 ))}
                             </div>
                         </div>
@@ -88,7 +88,7 @@ export default function Projects()
                                 {project.previews.map((preview, previewi)=>(
                                     <div className="text-lg flex p-[1px] bg-white bg-opacity-60 w-[max-content] cutBanner cursor-pointer" style={currentPreviews[projecti]==previewi?{backgroundColor:project.color, color:project.color}:{}} onClick={()=>{
                                         setCurrentPreviews((prev)=>[...prev.slice(0,projecti), previewi, ...prev.slice(projecti+1)]);
-                                    }}>
+                                    }} key={previewi}>
                                         <div className="text-lg flex items-center w-[max-content] py-2 px-3 bg-black cutBanner">
                                             <IoPlay className="mr-2"/> {preview.name}
                                         </div>
@@ -105,7 +105,7 @@ export default function Projects()
                                 // <video autoPlay loop muted className={"w-full h-full object-cover"+(currentPreviews[projecti]!=previewi?' hidden':'')} preload={previewi==0?'auto':'none'}>
                                 //     <source src={preview.link} type="video/webm"/>
                                 // </video>
-                                <iframe src={preview.link+"?background=1"} className={"w-screen h-screen object-cover absolute right-0 top-0"+(currentPreviews[projecti]!=previewi?' hidden':'')}></iframe>
+                                <iframe src={preview.link+"?background=1"} className={"w-screen h-screen object-cover absolute right-0 top-0"+(currentPreviews[projecti]!=previewi?' hidden':'')} key={previewi}></iframe>
                             ))}
                     </div>
                 </div>
