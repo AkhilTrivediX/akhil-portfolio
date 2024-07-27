@@ -10,7 +10,7 @@ export default function HeroSection()
           <div className="w-[200px] lg:w-[500px] aspect-square flex items-center justify-center relative">
             <Image src='/heroLogo.svg' alt='logo' layout="fill" className="heroLogo opacity-70" priority/>
             <Image src='/heroLogoStroked.svg' alt='logo' layout="fill" className="heroLogoStroke opacity-70 absolute" priority/>
-            <div className="absolute h-[180px] w-[180px] lg:w-[400px] lg:h-[400px] heroGrid">
+            <div className="absolute h-[200px] w-[200px] lg:w-[500px] lg:h-[500px] heroGrid">
               <div className="h-full w-full heroGridGradient"></div>
             </div>
           </div>

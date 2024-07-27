@@ -3,6 +3,7 @@ import HeroSection from "../components/heroSection";
 import Skills from "@/components/skills";
 import Projects from "@/components/projects";
 import Experience from "@/components/experience";
+import { MdEmail } from "react-icons/md";
 
 export default function Home() {
   return (
@@ -17,6 +18,7 @@ export default function Home() {
         <Projects/>
         <div className="text-md lg:text-2xl flex items-center justify-center text-white text-opacity-60 mb-4 lg:mb-4">Professional Experience</div>
         <Experience/>
+        <div className="text-xs lg:text-lg flex items-center justify-center text-white text-opacity-60 mb-4 lg:mb-4"><MdEmail className="mr-1 lg:mr-2"/> <strong>Contact Email:&nbsp;</strong> akhiltrivedix@gmail.com</div>
       </div>
     </main>
   );
