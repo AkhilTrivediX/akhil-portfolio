@@ -137,6 +137,45 @@ export const projectsInfo = [
                 link: 'https://player.vimeo.com/video/990670436'
             }
         ]
+    },
+    {
+        name: 'Tourney4U',
+        description: 'Customizable Tournament Scheduler',
+        techStack: ['JavaScript','HTML', 'CSS', 'NextJS'],
+        color: '#ff397c',
+        actionButtons: [{
+            name: 'View Demo',
+            icon: <FaGlobe/>,
+            link: 'https://tourney4ux.vercel.app/'
+        },
+        {
+            name: 'View Source Code',
+            icon: <FaCode/>,
+            link: 'https://github.com/AkhilTrivediX/tourney4u'
+        }],
+        features: [
+            <div>Created a <strong>Next.js</strong> web app that streamlines tournament bracket generation for various team sizes from 2 to
+            20, including <strong>byes for odd teams</strong>.</div>,
+            <div>Empowered user customization with extensive options for visual style, 4 different layouts, colour schemes, and borders.</div>,
+            <div>Defined a <strong>On-Demand font import</strong> system, fetching user-specified fonts from <strong>Google Fonts</strong> on demand for a personalised user experience.</div>,
+            <div>Enhanced user experience with real-time bracket updates and downloadable <strong>PNG exports</strong> for sharing and
+            printing.</div>,
+            <div> Prioritised <strong>mobile responsiveness</strong> by optimising layout for landscape viewing on smartphones.</div>
+        ],
+        previews: [
+            {
+                name: 'Brackets Customization',
+                link: 'https://player.vimeo.com/video/990945069'
+            },
+            {
+                name: 'Background Customization',
+                link: 'https://player.vimeo.com/video/990945109'
+            },
+            {
+                name: 'Text Customization',
+                link: 'https://player.vimeo.com/video/990945022'
+            }
+        ]
     }
 ]
 

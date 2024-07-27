@@ -53,7 +53,7 @@ export default function Experience()
                         <div className="text-xs lg:text-base font-kode flex items-center"><FaUserTie className="mr-2 text-xs lg:text-lg"/>{experience.role}</div>
                         <div className="text-xs lg:text-base font-kode flex items-center"><FaCalendarDay className="mr-2 text-xs lg:text-lg"/>{experience.duration}</div>
                       
-                        {experience.actionButtons.length>0?<div className="">
+                        {experience.actionButtons.length>0?<div className="flex flex-wrap gap-4">
                             {experience.actionButtons.map((button, buttoni)=>{
                                 if(button.link)
                                     return(

@@ -56,7 +56,7 @@ export default function Projects()
                                 <div className="ml-1 lg:ml-2 flex items-center p-1 rounded-3xl skillDiv cursor-pointer" key={techi} onMouseEnter={()=>{updatePrimaryColor(skillColors[tech])}} onMouseLeave={()=>{updatePrimaryColor('#fff')}} >{skillIcons[tech]} <div className="text-xs lg:text-base font-kode max-w-[0px] overflow-hidden skillName"><span className="ml-1 lg:ml-2 text-nowrap">{tech}</span></div></div>
                             ))}
                         </div>
-                        {project.actionButtons.length>0?<div className="">
+                        {project.actionButtons.length>0?<div className="flex flex-wrap gap-4">
                             {project.actionButtons.map((button, buttoni)=>{
                                 if(button.link)
                                     return(

@@ -23,6 +23,7 @@ export default function RootLayout({
         <ThemeProvider>
           <Navbar/>
           {children}
+          <Analytics />
         </ThemeProvider>
         </body>
     </html>
