@@ -2,13 +2,18 @@
 
 import { skills } from "@/constants/constants"
 import { updatePrimaryColor } from "./themeProvider"
+import { useEffect, useState } from "react";
 
 
 export default function Skills()
 {
+    const [windowWidth, setWindowWidth] = useState<number>(0);
+
+    useEffect(()=>{setWindowWidth(innerWidth)},[])
     function getSkills()
     {
-        let skillDivision = innerWidth>=1024?[7,5,7]:[4,3,4,3,4];
+        
+        let skillDivision = windowWidth!>=1024?[7,5,7]:[4,3,4,3,4];
         let xsum = 0;
         let stack = [];
         for(let x=0;x<skillDivision.length;x++)

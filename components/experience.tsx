@@ -6,7 +6,7 @@ import { IoBuild, IoPlay } from "react-icons/io5";
 import { VscDebugBreakpointDataUnverified } from "react-icons/vsc";
 import { updatePrimaryColor } from "./themeProvider";
 import Image from "next/image";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { BsCursor } from "react-icons/bs";
 
 
@@ -16,8 +16,12 @@ export default function Experience()
 
     const [currentPreviews, setCurrentPreviews] = useState([0,0,0,0]);
 
+    const [windowWidth, setWindowWidth] = useState<number>(0);
+
+    useEffect(()=>{setWindowWidth(innerWidth)},[])
+
     function skillPreviewIn(e: any){
-        if(innerWidth<1024){return;}
+        if(windowWidth<1024){return;}
         let target = e.currentTarget.parentElement as HTMLDivElement;
         let parent = target.parentElement as HTMLDivElement;
 
@@ -33,7 +37,7 @@ export default function Experience()
     }
 
     function skillPreviewOut(e: any){
-        if(innerWidth<1024){return;}
+        if(windowWidth<1024){return;}
         let target = e.currentTarget.parentElement as HTMLDivElement;
         target.style.width = '50%';
     }
