@@ -25,8 +25,8 @@ export const skills = [
     {name: 'GitHub', icon:<FaGithub/>, link:'https://github.com/', color:''},
     {name: 'DiscordJS', icon: <Image src='/DJSIcon.svg' alt='logo' width={20} height={20}/>, link:'https://discord.js.org/', color:'#5d6af2'},
     {name: 'Java', icon:<FaJava/>, link:'https://www.java.com/en/', color:'#e67309'},
-    {name: 'C', icon:<FaC/>, link:'https://www.geeksforgeeks.org/c-language-introduction/', color:'#6a9dd3'},
     {name: 'Python', icon:<FaPython/>, link:'https://www.python.org/', color:'#3c77a8'},
+    {name: 'C', icon:<FaC/>, link:'https://www.geeksforgeeks.org/c-language-introduction/', color:'#6a9dd3'},
 ]
 
 export const skillColors: {[key: string]: string} = {
@@ -84,7 +84,7 @@ export const projectsInfo = [
     {
         name: 'KRIDATS',
         description: 'Gamified profile web-app to give competetive experience to users.',
-        techStack: ['Typescript', 'NextJS', 'TailwindCSS', 'Prisma', 'MySQL', 'Clerk', 'Cloudinary'],
+        techStack: ['TypeScript', 'NextJS', 'TailwindCSS', 'Prisma', 'MySQL', 'Clerk', 'Cloudinary'],
         color: '#a8eb30',
         actionButtons: [{
             name: 'Under Development',
@@ -116,7 +116,7 @@ export const projectsInfo = [
     {
         name: 'ReQu AI',
         description: 'AI Based Web-App to generate code files and run them for you.',
-        techStack: ['Javascript', 'CSS', 'NextJS', 'GPT Turbo 3.5', 'Gemini', 'Groq', 'NodeJS'],
+        techStack: ['JavaScript', 'CSS', 'NextJS', 'GPT Turbo 3.5', 'Gemini', 'Groq', 'NodeJS'],
         color: '#bc6bff',
         actionButtons: [],
         features: [
