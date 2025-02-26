@@ -3,16 +3,15 @@ import { NextRequest, NextResponse } from "next/server";
 export function middleware(req: NextRequest){
     const host = req.headers.get('host') || '';
 
-    const subdomain = host.split('.')[0];
-    console.log('Subdomain is ', subdomain);
+    console.log('Hosts', host)
 
     if (req.nextUrl.pathname.startsWith('/_next') || req.nextUrl.pathname.startsWith('/static')) {
 
         return NextResponse.next();
     }
 
-    if(subdomain && subdomain != 'localhost:3000' && subdomain != 'akhiltrivedi' && subdomain != 'www'){
-        return NextResponse.rewrite(new URL(`/${subdomain}`, req.url));
+    if(host.includes('vinima')){
+        return NextResponse.rewrite(new URL(process.env.NEXT_PUBLIC_BASE_URL+'/vinima'));
     }
 
     return NextResponse.next();
