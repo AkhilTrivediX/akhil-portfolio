@@ -4,7 +4,7 @@ import { usePathname } from "next/navigation";
 import Sidebar from "./_components/sidebar";
 import IntroductionPage from "./_components/pages/Introduction";
 import { ReactNode } from "react";
-import InstagramPage from "./_components/pages/Instagram";
+import InstagramPage from "./_components/pages/instagramPage";
 import { AnimatePresence, motion } from 'motion/react'
 
 export default function Page(){

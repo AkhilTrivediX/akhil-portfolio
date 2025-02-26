@@ -5,7 +5,7 @@ import { ReactNode, useState } from "react";
 import { AnimatePresence, motion } from 'motion/react'
 import ReactMarkdown from 'react-markdown';
 import rehypeHighlight from 'rehype-highlight';
-import "highlight.js/styles/github-dark.css";
+import "./codeblock.css";
 import { FaRegClipboard } from "react-icons/fa6";
 import { IoCheckmarkSharp } from "react-icons/io5";
 

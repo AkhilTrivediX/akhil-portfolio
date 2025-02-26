@@ -4,6 +4,7 @@ export function middleware(req: NextRequest){
     const host = req.headers.get('host') || '';
 
     const subdomain = host.split('.')[0];
+    console.log('Subdomain is ', subdomain);
 
     if (req.nextUrl.pathname.startsWith('/_next') || req.nextUrl.pathname.startsWith('/static')) {
 

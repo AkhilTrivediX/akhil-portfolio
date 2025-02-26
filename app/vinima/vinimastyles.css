@@ -8,10 +8,6 @@
     all: revert;
 }
 
-.codeblock{
-    background-color: #0d1117;
-}
-
 .codeblock span{
     
     white-space: pre-wrap; /* Allows wrapping inside the code block */

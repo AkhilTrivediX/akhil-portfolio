@@ -1,6 +1,6 @@
 import { Button } from "@/components/ui/button";
+import ViInstagram, {InstaPostsType} from "@/components/vinima/instagram"; 
 import ComponentPreview from "../componentPreview";
-import InstaSocial, { InstaPostsType } from "../instaSocial";
 import { act, useCallback, useEffect, useMemo, useState } from "react";
 import { FaCheck} from "react-icons/fa";
 import { FiPlus } from "react-icons/fi";
@@ -126,7 +126,7 @@ export function InstagramDemo() {
     return (
         <TooltipProvider>
             <main>
-                <ComponentPreview code={codeFn} previewComponent={<InstaSocial avatarUrl={controlAvatarUrl} username={controlUsername} avatarOnIdle={controlShowAvatarOnIdleToggle} usernameOnIdle={controlShowUsernameOnIdleToggle} iconOnlyIdle={controlIconOnlyToggle} name={controlNameActive?controlName:undefined} bio={controlBioActive?controlBio:undefined} isVerified={controlIsVerified} monotone={controlMonotone} stats={controlStatsActive?controlStats:undefined} followButton={controlFollowButton} posts={controlSamplePostsToggle?samplePosts:undefined}/>} controlsComponent={
+                <ComponentPreview code={codeFn} previewComponent={<ViInstagram avatarUrl={controlAvatarUrl} username={controlUsername} avatarOnIdle={controlShowAvatarOnIdleToggle} usernameOnIdle={controlShowUsernameOnIdleToggle} iconOnlyIdle={controlIconOnlyToggle} name={controlNameActive?controlName:undefined} bio={controlBioActive?controlBio:undefined} isVerified={controlIsVerified} monotone={controlMonotone} stats={controlStatsActive?controlStats:undefined} followButton={controlFollowButton} posts={controlSamplePostsToggle?samplePosts:undefined}/>} controlsComponent={
                 <div className="flex flex-col gap-1 p-2 w-full h-full">
                     <div className="flex gap-2">
                         <TextControl name="Avatar Url" size="300px" currentValue={controlAvatarUrl} onChange={(val) => setControlAvatarUrl(val)} description="Url of the profile picture"/>

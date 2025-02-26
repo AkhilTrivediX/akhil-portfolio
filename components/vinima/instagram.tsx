@@ -36,24 +36,12 @@ type InstaData = {
 }
 const CAPTION_WORD_LIMIT = 30
 
-export default function InstaSocial({layoutId='Vinima',usernameOnIdle=true, ...props}: InstaData){
+export default function ViInstagram({layoutId='Vinima',usernameOnIdle=true, ...props}: InstaData){
     const [componentState, setComponentState] = useState('idle')
     const MotionButton = motion.create(Button)
     const timeoutRef = useRef<any>(null);
 
-    // const expand = (state:boolean) => {
-    //     if (state) {
-    //         clearTimeout(timeoutRef.current);
-    //         timeoutRef.current = setTimeout(() => {
-    //             setIsExpanded(true);
-    //         }, 100);
-    //     } else {
-    //         clearTimeout(timeoutRef.current);
-    //         timeoutRef.current = setTimeout(() => {
-    //             setIsExpanded(false);
-    //         }, 100);
-    //     }
-    // };
+    
 
     
 
