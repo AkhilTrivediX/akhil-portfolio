@@ -1,0 +1,267 @@
+/* eslint-disable @next/next/no-img-element */
+'use client'
+
+import { useRef, useState } from "react";
+import { AnimatePresence, delay, motion, MotionConfig } from "motion/react";
+import { Button } from "@/components/ui/button";
+import { FaComment, FaInstagram } from "react-icons/fa";
+import { FaArrowUpRightFromSquare } from "react-icons/fa6";
+import { MdVerified } from "react-icons/md";
+
+export type InstaPostsType =  
+{
+    imageUrl: string,
+    url?: string,
+    videoUrl?: string,
+    caption: string,
+    likes?: number | string,
+    comments?: number | string,
+    dateTime?: string
+}[]
+type InstaData = {
+    layoutId?:string,
+    avatarUrl: string,
+    username: string,
+    name?: string,
+    bio?: string,
+    isVerified?: boolean,
+    stats?: {name: string, value: string}[],
+    followButton?: boolean | string,
+    posts?: InstaPostsType,
+
+    iconOnlyIdle?: boolean,
+    avatarOnIdle?:boolean,
+    usernameOnIdle?:boolean,
+    monotone?: boolean
+}
+const CAPTION_WORD_LIMIT = 30
+
+export default function InstaSocial({layoutId='Vinima',usernameOnIdle=true, ...props}: InstaData){
+    const [componentState, setComponentState] = useState('idle')
+    const MotionButton = motion.create(Button)
+    const timeoutRef = useRef<any>(null);
+
+    // const expand = (state:boolean) => {
+    //     if (state) {
+    //         clearTimeout(timeoutRef.current);
+    //         timeoutRef.current = setTimeout(() => {
+    //             setIsExpanded(true);
+    //         }, 100);
+    //     } else {
+    //         clearTimeout(timeoutRef.current);
+    //         timeoutRef.current = setTimeout(() => {
+    //             setIsExpanded(false);
+    //         }, 100);
+    //     }
+    // };
+
+    
+
+    return(
+        <MotionConfig >
+            <motion.main className="relative flex justify-center"  onHoverStart={() => setComponentState('profile')} onHoverEnd={() => setComponentState('idle')}>
+
+            <MotionButton variant='outline' className="gap-2 p-2 opacity-0 pointer-events-none">
+
+                <motion.div className="inline-flex h-full aspect-square overflow-hidden items-center" style={{borderRadius: '4px'}}>{props.avatarOnIdle?<img src={props.avatarUrl} alt="Profile Insta"/>:<FaInstagram size={22}/>}</motion.div>
+
+                {!props.iconOnlyIdle && <motion.span className="" initial={{opacity: 1}} exit={{opacity: 0}}>{usernameOnIdle?props.username:'Instagram'}</motion.span>}
+
+            </MotionButton>
+                
+                <AnimatePresence initial={false}>
+                {
+                    componentState=='idle' && <MotionButton layoutId={layoutId+'component'} variant='outline' className="gap-2 p-2 absolute" style={{translate: '-50% -50%', top: '50%', left: '50%'}}>
+
+                    <motion.div layoutId={layoutId+'pfp'} className="inline-flex h-full aspect-square overflow-hidden items-center" style={{borderRadius: '4px'}}>{props.avatarOnIdle?<img src={props.avatarUrl} alt="Profile Insta"/>:<FaInstagram size={22}/>}</motion.div>
+
+                    <AnimatePresence propagate>
+                    {!props.iconOnlyIdle && <motion.span layoutId={layoutId+'username'} className="" initial={{opacity: 1}} animate={{opacity: 1}} exit={{opacity: 0}}>{usernameOnIdle?props.username:'Instagram'}</motion.span>}
+                    </AnimatePresence>
+
+                    </MotionButton>
+                }
+                
+                {componentState=='profile' && <motion.div key='detailInstaView' layoutId={layoutId+'component'} className="flex flex-col absolute w-[470px] bg-background border border-input rounded-md p-2 gap-2 z-[99]" style={{translate: '-50% -50%', top: '50%', left: '50%'}}>
+
+                        <div className="flex gap-4">
+
+                            <motion.div layoutId={layoutId+'pfp'} className="w-[75px] aspect-square overflow-hidden" style={{borderRadius: '50px'}}>
+                                <img src={props.avatarUrl} alt="Profile Insta"/>
+                            </motion.div>
+
+                            <div className="flex flex-col gap-1">
+                                <div className="flex gap-4 items-center">
+                                    <div className="flex gap-1 items-center">
+                                        <motion.div layoutId={layoutId+'username'} className="text-sm w-[max-content]" style={{opacity: 0.8}}>{props.username}</motion.div>
+                                        {props.isVerified && <motion.div initial={{scale: 0.5,rotateZ:180, opacity: 0, y: 10}} animate={{scale: 1,rotateZ: 0, opacity: 1, y: 0}} exit={{scale: 0.5, opacity: 0, y: 10, transition: {delay: 0}}} transition={{delay: 0.2}} style={props.monotone?{}:{color: '#0095f6'}}><MdVerified /></motion.div>}
+                                    </div>
+                                    {props.followButton && <MotionButton initial={{scale: 0.5, opacity: 0, y: 10}} animate={{scale: 1, opacity: 1, y: 0}} exit={{scale: 0.5, opacity: 0, y: 10, transition: {delay: 0}}} transition={{delay: 0.2}} size='sm' className={"h-6 px-2 py-1 text-xs "+(props.monotone?'':'text-white bg-[#0095f6] hover:bg-[#1877f2]')} onClick={()=>{window.open(typeof props.followButton=='string'?props.followButton:'https://www.instagram.com/'+props.username, '_blank')}}>Follow</MotionButton>}
+                                </div>
+
+                                {props.stats && <motion.div className="w-full flex justify-between gap-4 text-sm" exit={{y: 10, opacity: 0}} transition={{duration: 0.1}}>
+                                        {
+                                            props.stats.map((item, index) => (
+                                                <motion.div key={index} initial={{opacity: 0, y: 10}} animate={{opacity: 1, y: 0}} transition={{delay: 0.2+index*0.07, bounce: 0}} className="flex gap-1">
+                                                    <StaggeredText className="font-semibold" delay={0.2+index*0.07}>{item.value}</StaggeredText>
+                                                    <motion.span initial={{opacity: 0}} animate={{opacity: 1, transition: {duration: 0.7}}}>{item.name}</motion.span>
+                                                </motion.div>
+                                            ))
+                                        }
+                                </motion.div>}
+
+                                {props.name && <motion.div exit={{y: 10, opacity: 0}} transition={{delay: 0}}>
+                                    <StaggeredText className="text-sm font-semibold" delay={0.2} stagger={0.01}>{props.name}</StaggeredText>
+                                </motion.div>}
+
+                            </div>
+                        </div>
+
+                        {props.bio && <div>
+                            <motion.div className="text-sm" initial={{opacity: 0, y: 10}} animate={{opacity: 1, y: 0, transition: {delay: 0.2}}} exit={{opacity: 0, y: 10}} transition={{bounce: 0}}>{props.bio}</motion.div>
+                        </div>}
+
+                        {props.posts && <div className="flex flex-wrap justify-start items-center w-[max-content] gap-4 max-w-[450px]">
+                            {
+                                props.posts.map((post, i)=>(
+                                    <motion.div layoutId={layoutId+'postImage '+i} initial={{scale: 0.5, opacity: 0, y: 10}} animate={{scale: 1, opacity: 1, y: 0, transition: {delay: 0.3+i*0.05}}} exit={{scale: 0.5, opacity: 0, y: -10, transition: {delay: 0}}} key={i} className="w-[100px] aspect-[4/5] border border-input rounded-sm overflow-hidden cursor-pointer relative" onClick={()=>setComponentState('post '+i)}>
+                                        <motion.img src={post.imageUrl} alt='instagram post' className="w-full h-full object-cover object-center"/>
+                                        <div className="absolute w-full h-full top-0 left-0 bg-black/20 opacity-0 hover:opacity-100 transition-all duration-300 flex justify-center items-end p-2">
+                                            <div className="flex gap-2 items-center justify-center text-xs opacity-90 text-white">
+                                                {post.likes && <div className="flex gap-1 items-center"><FaHeart /><StaggeredText>{post.likes.toString()}</StaggeredText></div>}
+                                                {post.comments && <div className="flex gap-1 items-center"><FaComment /><StaggeredText>{post.comments.toString()}</StaggeredText></div>}
+                                            </div>
+                                        </div>
+                                    </motion.div>
+                                ))
+                            }
+                        </div>}
+
+                    </motion.div>}
+                    {
+                        (props.posts||[]).map((post, i)=>componentState==('post '+i) ? <motion.div key='detailPostView' layoutId={layoutId+'component'} className="flex flex-col absolute bg-background border border-input rounded-md" style={{translate: '-50% -50%', top: '50%', left: '50%'}}>
+                            <div className="flex p-2 gap-2 border-b border-input h-10 items-center text-sm relative">
+                                <motion.div layoutId={layoutId+'pfp'} className="inline-flex h-full aspect-square overflow-hidden" style={{borderRadius: '50px'}}><img src={props.avatarUrl} alt="Profile Insta"/></motion.div>
+    
+                                <motion.span layoutId={layoutId+'username'} className="" style={{opacity: 1}}>{props.username}</motion.span>
+    
+                                <motion.div initial={{opacity:0, y: 10}} animate={{opacity:1, y:0}} exit={{opacity: 0, y: 10}}>
+                                    {post.dateTime && <StaggeredText className="text-sm opacity-70" delay={0.2} stagger={0.01}>{getReadableDate(post.dateTime)}</StaggeredText>}
+                                </motion.div>
+
+                                <div className="absolute top-1/2 -translate-y-1/2 right-2 cursor-pointer text-lg" onClick={()=>{setComponentState('profile')}}><BsX/></div>
+                            </div>
+    
+                            <div className="p-1">
+                                <motion.div className="w-[300px] aspect-[4/5] border border-input rounded-sm overflow-hidden" layoutId={layoutId+'postImage '+i} initial={{opacity:1, y: 10}} animate={{opacity:1, y:0}} exit={{scale: 0.5,opacity: 0, y: 10, transition: {delay:0, duration: 0.1}}}>
+                                    <motion.img src={post.imageUrl} alt='instagram post' className="w-full h-full object-cover object-center"/>
+                                </motion.div>
+                                <div className="flex gap-3 text-sm p-2 pb-0 font-semibold opacity-80">
+                                    {post.likes && <motion.div initial={{opacity:0, y: 10}} animate={{opacity:1, y:0, transition: {delay: 0.2}}} exit={{opacity: 0, y: 10}} className="flex gap-1 items-center"><FaHeart style={props.monotone?{}:{color: '#ff3040'}}/><StaggeredText delay={0.3}>{post.likes.toString()}</StaggeredText></motion.div>}
+    
+                                    {post.comments && <motion.div initial={{opacity:0, y: 10}} animate={{opacity:1, y:0, transition: {delay: 0.4}}} exit={{opacity: 0, y: 10}} className="flex gap-1 items-center"><FaComment /><StaggeredText delay={0.5}>{post.comments.toString()}</StaggeredText></motion.div>}
+    
+                                    {post.url && <motion.div initial={{opacity:0, y: 10}} animate={{opacity:1, y:0, transition: {delay: 0.6}}} exit={{opacity: 0, y: 10}} className="flex gap-1 items-center" onClick={()=>{window.open(post.url, '_blank')}}><FaArrowUpRightFromSquare /></motion.div>}
+                                </div>
+    
+                                <div className="inline-flex text-xs px-2 gap-0.5 flex-wrap">{parseCaption(post.caption).map((part, index)=>(<StaggeredWords className="inline-flex" key={index} delay={0.5+index*0.02} style={{opacity: part.type=='hashtag'?0.6:1}}>{part.text}</StaggeredWords>))}</div>
+                            </div>
+                        </motion.div>:null)
+                    }
+                </AnimatePresence>
+            </motion.main>
+        </MotionConfig>
+    )
+}
+
+function StaggeredText({children, className, style, delay=0, stagger=0.05}: {children: string, className?:string, style?:React.CSSProperties, delay?: number, stagger?: number}){
+    return(
+        <div className={className+' text-nowrap'} style={style}>
+                {children.split('').map((char, index) => char!=' '?<motion.span className='inline-block' key={index} initial={{y: 5, opacity: 0}} animate={{y: 0, opacity: 1}} exit={{y: -5, opacity: 0, transition: {delay: 0}}} transition={{duration: 0.1, delay: delay+index * stagger}}>{char}</motion.span>:<span key={index}>&nbsp;</span>)}
+        </div>
+    )
+}
+
+function StaggeredWords({children, className, style, delay=0, stagger=0.05}: {children: string, className?:string, style?:React.CSSProperties, delay?: number, stagger?: number}){
+    return(
+        <div className={className+' text-nowrap'} style={style}>
+                {children.split(' ').map((word, index) => <motion.span className='inline-block' key={index} initial={{y: 5, opacity: 0}} animate={{y: 0, opacity: 1}} exit={{y: -5, opacity: 0}} transition={{duration: 0.1, delay: delay+index * stagger}}>{word} </motion.span>)}
+        </div>
+    )
+}
+
+function StaggeredNumbers({children, className, style}: {children: string, className?:string, style?:React.CSSProperties}){
+    return(
+        <div className={className+" tabular-nums overflow-hidden"} style={style}>
+            {children.split('').map((digit, index)=>digit!=','?<motion.span className='inline-block' key={index} initial={{y: index%2==0?30:-30, opacity: 0}} animate={{y: 0, opacity: 1}} transition={{duration: 0.2, delay: 0.3, ease: 'easeOut'}}>{digit}</motion.span>:<span key={index}>,</span>)}
+        </div>
+    )
+}
+
+const getReadableDate = (dateString:string)=>{
+    const date = new Date(dateString);
+
+    const readableDate = date.toLocaleString("en-US", {
+        month: "short",
+        day: "numeric",
+        hour: "numeric",
+        minute: "2-digit",
+        hour12: true,
+    });
+
+    return readableDate
+}
+function parseCaption(caption:string) {
+    let i=0, x=0;
+    let result:{type: string, text: string}[] = []
+    while(x!=CAPTION_WORD_LIMIT && i<caption.length && caption.indexOf(' ', i)!=-1){
+        let word = caption.substring(i, caption.indexOf(' ', i));
+        i = caption.indexOf(' ', i)+1;
+
+        if(word.includes('#'))
+            result.push({type: 'hashtag', text: word})
+        else
+            result.push({type: 'text', text: word})
+
+        x++;
+    }
+
+    if(x>=CAPTION_WORD_LIMIT)
+        result.push({type: 'text', text: '...'})
+
+    return result
+}
+
+const BsX = () => (
+    <svg
+        xmlns="http://www.w3.org/2000/svg"
+        fill="currentColor"
+        viewBox="0 0 24 24"
+        className="w-6 h-6"
+    >
+        <path
+        strokeLinecap="round"
+        strokeLinejoin="round"
+        d="M4.646 4.646a.5.5 0 0 1 .708 0L8 7.293l2.646-2.647a.5.5 0 0 1 .708.708L8.707 8l2.647 2.646a.5.5 0 0 1-.708.708L8 8.707l-2.646 2.647a.5.5 0 0 1-.708-.708L7.293 8 4.646 5.354a.5.5 0 0 1 0-.708"
+        />
+    </svg>)
+
+const FaHeart = ({style}:{style?:React.CSSProperties}) => (
+    <svg
+        xmlns="http://www.w3.org/2000/svg"
+        fill="currentColor"
+        width={'1em'}
+        height={'1em'}      
+        stroke="currentColor"
+        viewBox="0 0 512 512"
+        style={style}
+    >
+        <path
+        strokeLinecap="round"
+        strokeLinejoin="round"
+        d="M462.3 62.6C407.5 15.9 326 24.3 275.7 76.2L256 96.5l-19.7-20.3C186.1 24.3 104.5 15.9 49.7 62.6c-62.8 53.6-66.1 149.8-9.9 207.9l193.5 199.8c12.5 12.9 32.8 12.9 45.3 0l193.5-199.8c56.3-58.1 53-154.3-9.8-207.9z"
+        />
+    </svg>
+)
+
+    

@@ -28,10 +28,8 @@ export default function Projects()
         let parentX = parent.offsetLeft;
         let mouseX = e.clientX;
         let covered = (mouseX-parentX)*100/(parentWidth);
-        console.log('Percent Covered:',covered);
         covered = covered<75?covered:75;
         let incWidth = (covered-25)*2;
-        console.log('Inc Width:',incWidth);
         target.style.width = `${incWidth}%`;
     }
 
@@ -41,9 +39,9 @@ export default function Projects()
         target.style.width = '50%';
     }
     return(
-        <div className="w-[100vw]  text-white text-opacity-60 relative">
+        <div className="w-[100vw]  text-foreground text-opacity-60 relative">
                 {projectsInfo.map((project, projecti)=>(
-                    <div className={"w-full h-screen flex flex-col lg:flex-row items-start justify-start lg:justify-start lg:items-center sticky top-0 bg-black"+(projecti!=0?" mt-[20%]":"")} key={projecti}>
+                    <div className={"w-full h-screen flex flex-col lg:flex-row items-start justify-start lg:justify-start lg:items-center sticky top-0 bg-background"+(projecti!=0?" mt-[20%]":"")} key={projecti}>
                     {projecti!=0?<div className="absolute bottom-full left-0 w-full h-[20%] pointer-events-none" style={{backgroundImage:`linear-gradient(0deg, black 40%, transparent 100%)`}}></div>:null}
                     <div className=" w-full h-full lg:w-[50%] p-12 pt-2 lg:pt-12 flex flex-col justify-around">
 
@@ -61,8 +59,8 @@ export default function Projects()
                                 if(button.link)
                                     return(
                                         <a href={button.link} key={buttoni}>
-                                            <div className="flex p-[1px] bg-white bg-opacity-60 w-[max-content] cutBanner">
-                                                <div className="text-sm lg:text-lg flex items-center w-[max-content] py-1 px-2 lg:py-2 lg:px-3 bg-black cutBanner">
+                                            <div className="flex p-[1px] bg-foreground bg-opacity-60 w-[max-content] cutBanner">
+                                                <div className="text-sm lg:text-lg flex items-center w-[max-content] py-1 px-2 lg:py-2 lg:px-3 bg-background cutBanner">
                                                     {button.icon}<div className="ml-1 lg:ml-2">{button.name}</div>
                                                 </div>
                                             </div>
@@ -70,8 +68,8 @@ export default function Projects()
                                     )
                                 else
                                     return(
-                                        <div className="flex p-[1px] bg-white bg-opacity-60 w-[max-content] cutBanner" key={buttoni}>
-                                            <div className="text-sm lg:text-lg flex items-center w-[max-content] py-1 px-2 lg:py-2 lg:px-3 bg-black cutBanner">
+                                        <div className="flex p-[1px] bg-foreground bg-opacity-60 w-[max-content] cutBanner" key={buttoni}>
+                                            <div className="text-sm lg:text-lg flex items-center w-[max-content] py-1 px-2 lg:py-2 lg:px-3 bg-background cutBanner">
                                                 {button.icon}<div className="ml-2">{button.name}</div>
                                             </div>
                                         </div>
@@ -91,13 +89,13 @@ export default function Projects()
                             <div className="text-md lg:text-lg mb-2">Previews:</div>
                             <div className="flex flex-wrap gap-4">
                                 {project.previews.map((preview, previewi)=>(
-                                    <div className="flex p-[1px] bg-white bg-opacity-60 w-[max-content] cutBanner cursor-pointer" style={currentPreviews[projecti]==previewi?{backgroundColor:project.color, color:project.color}:{}} onClick={()=>{
+                                    <div className="flex p-[1px] bg-foreground bg-opacity-60 w-[max-content] cutBanner cursor-pointer" style={currentPreviews[projecti]==previewi?{backgroundColor:project.color, color:project.color}:{}} onClick={()=>{
                                         setCurrentPreviews((prev)=>[...prev.slice(0,projecti), previewi, ...prev.slice(projecti+1)]);
                                         let previewParent = document.getElementById('preview'+projecti+'Parent');
                                         previewParent?.classList.toggle('opacity-0');
                                         previewParent?.classList.toggle('pointer-events-none');
                                     }} key={previewi}>
-                                        <div className="text-sm lg:text-lg  flex items-center w-[max-content] py-1 px-2 lg:py-2 lg:px-3 bg-black cutBanner">
+                                        <div className="text-sm lg:text-lg  flex items-center w-[max-content] py-1 px-2 lg:py-2 lg:px-3 bg-background cutBanner">
                                             <IoPlay className="mr-2"/> {preview.name}
                                         </div>
                                     </div>
@@ -105,13 +103,13 @@ export default function Projects()
                             </div>
                         </div>
                     </div>
-                    <div id={'preview'+projecti+'Parent'} className="w-full h-full lg:w-[50%] absolute bottom-0 right-0 overflow-hidden bg-black bg-opacity-60 opacity-0 lg:opacity-100 pointer-events-none lg:pointer-events-auto">
-                            <div className="w-full h-full absolute bottom-0 right-0 z-[1] bg-black bg-opacity-60 opacity-0 lg:opacity-100 flex items-center justify-center hover:opacity-0" onMouseMove={(e)=>{skillPreviewIn(e)}} onMouseLeave={(e)=>{skillPreviewOut(e)}} onClick={(e)=>{
+                    <div id={'preview'+projecti+'Parent'} className="w-full h-full lg:w-[50%] absolute bottom-0 right-0 overflow-hidden bg-background bg-opacity-60 opacity-0 lg:opacity-100 pointer-events-none lg:pointer-events-auto">
+                            <div className="w-full h-full absolute bottom-0 right-0 z-[1] bg-background bg-opacity-60 opacity-0 lg:opacity-100 flex items-center justify-center hover:opacity-0" onMouseMove={(e)=>{skillPreviewIn(e)}} onMouseLeave={(e)=>{skillPreviewOut(e)}} onClick={(e)=>{
                                 let previewParent = document.getElementById('preview'+projecti+'Parent');
                                 previewParent?.classList.toggle('opacity-0');
                                 previewParent?.classList.toggle('pointer-events-none');
                             }}>
-                                <div className="py-2 px-4 bg-white bg-opacity-10 flex justify-center items-center rounded-full"><BsCursor style={{transform:'rotateY(180deg)'}} className="mr-2"/> Hover Over Me</div>
+                                <div className="py-2 px-4 bg-foreground/70 opacity-60 flex justify-center items-center rounded-full text-background"><BsCursor style={{transform:'rotateY(180deg)'}} className="mr-2"/> Hover Over Me</div>
                             </div>
                             {project.previews.map((preview, previewi)=>(
                                 <iframe src={preview.link+"?background=1"} className={"w-screen h-screen object-cover absolute right-0 top-0"+(currentPreviews[projecti]!=previewi?' hidden':'')} key={previewi}></iframe>

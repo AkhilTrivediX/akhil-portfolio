@@ -5,7 +5,7 @@ export default function HeroSection()
     return(
       <div className="flex flex-col lg:flex-row lg:max-w-[75%] relative justify-around z-[2]" style={{perspective:'1000px', color:'var(--primaryColor)'}}>
         <div className="absolute w-full h-full z-[12] mix-blend-darken" style={{backgroundColor: 'var(--primaryColor)'}}></div>
-        <div className="absolute w-full h-full bg-black z-[0]"></div>
+        <div className="absolute w-full h-full bg-background z-[0]"></div>
         <div className="hidingDiv w-full bg-background z-[1] absolute top-0 left-0 h-full "></div>
           <div className="w-[200px] lg:w-[500px] aspect-square flex items-center justify-center relative">
             <Image src='/heroLogo.svg' alt='logo' layout="fill" className="heroLogo opacity-70" priority/>

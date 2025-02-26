@@ -23,7 +23,6 @@ export default function RootLayout({
     <html lang="en">
       <body className={`font-kanit relative`}>
         <ThemeProvider>
-          <Navbar/>
           {children}
           <Analytics />
           <SpeedInsights />
