@@ -1,8 +1,8 @@
 /* eslint-disable @next/next/no-img-element */
 'use client'
 
-import { useRef, useState } from "react";
-import { AnimatePresence, delay, motion, MotionConfig } from "motion/react";
+import {  useState } from "react";
+import { AnimatePresence, motion, MotionConfig } from "motion/react";
 import { Button } from "@/components/ui/button";
 
 export type InstaPostsType =  
@@ -36,7 +36,6 @@ const CAPTION_WORD_LIMIT = 30
 export default function ViInstagram({layoutId='Vinima',usernameOnIdle=true, ...props}: InstaData){
     const [componentState, setComponentState] = useState('idle')
     const MotionButton = motion.create(Button)
-    const timeoutRef = useRef<any>(null);
 
     
 
@@ -175,14 +174,6 @@ function StaggeredWords({children, className, style, delay=0, stagger=0.05}: {ch
     )
 }
 
-function StaggeredNumbers({children, className, style}: {children: string, className?:string, style?:React.CSSProperties}){
-    return(
-        <div className={className+" tabular-nums overflow-hidden"} style={style}>
-            {children.split('').map((digit, index)=>digit!=','?<motion.span className='inline-block' key={index} initial={{y: index%2==0?30:-30, opacity: 0}} animate={{y: 0, opacity: 1}} transition={{duration: 0.2, delay: 0.3, ease: 'easeOut'}}>{digit}</motion.span>:<span key={index}>,</span>)}
-        </div>
-    )
-}
-
 const getReadableDate = (dateString:string)=>{
     const date = new Date(dateString);
 
@@ -198,9 +189,9 @@ const getReadableDate = (dateString:string)=>{
 }
 function parseCaption(caption:string) {
     let i=0, x=0;
-    let result:{type: string, text: string}[] = []
+    const result:{type: string, text: string}[] = []
     while(x!=CAPTION_WORD_LIMIT && i<caption.length && caption.indexOf(' ', i)!=-1){
-        let word = caption.substring(i, caption.indexOf(' ', i));
+        const word = caption.substring(i, caption.indexOf(' ', i));
         i = caption.indexOf(' ', i)+1;
 
         if(word.includes('#'))

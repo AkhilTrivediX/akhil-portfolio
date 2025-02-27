@@ -74,13 +74,14 @@ export default function InstagramPage(){
 
     
     const codeFn = useMemo(() => {
-        return (`import ViInstagram${controlSamplePostsToggle?', { InstaPostsType } ':''} from "@vinima/instagram"
+        return (`import ViInstagram${controlSamplePostsToggle?', { InstaPostsType } ':''} from "@/components/vinima/instagram"
 
 export function InstagramDemo() {
 
     ${controlAvatarUrl.length>50?`const avatarUrl = '${controlAvatarUrl}'`:''}
     ${controlStatsActive && controlStats.length>0?`const stats = [${controlStats.map(e=>`{ name: '${e.name}', value: '${e.value}'}`)}]`:''}
-    ${controlSamplePostsToggle?`const postData:InstaPostsType = [
+    ${controlSamplePostsToggle?`const BASE_URL = 'akhiltrivedi.me'
+        const postData:InstaPostsType = [
         {
             imageUrl:BASE_URL+'/cat1.jpg',
             caption: 'Paws off, this is my snack! 😼🍭 #CatMood #TooCute #FurryFriend',
@@ -113,7 +114,7 @@ export function InstagramDemo() {
     return(
         <ViInstagram 
             avatarUrl=${controlAvatarUrl.length<=50?`'${controlAvatarUrl}'`:'{avatarUrl}'}
-            username='${controlUsername}'${controlNameActive && controlName?(`\n\t\t\tname='${controlName}'`):''}${controlStatsActive?controlStats.length>0 &&`\n\t\t\tstats={stats}`:''}${controlBioActive && controlBio?`\n\t\t\tbio=\`${controlBio}\``:''};${controlSamplePostsToggle?'\n\t\t\tposts={postData}':''}\n\t\t   ${controlShowAvatarOnIdleToggle?' avatarOnIdle':''}${controlShowUsernameOnIdleToggle?' usernameOnIdle':''}${controlIconOnlyToggle?' iconOnlyIdle':''}${controlIsVerified?' isVerified':''}${controlMonotone?' monotone':''}${controlFollowButton?' followButton':''} />
+            username='${controlUsername}'${controlNameActive && controlName?(`\n\t\t\tname='${controlName}'`):''}${controlStatsActive?controlStats.length>0 &&`\n\t\t\tstats={stats}`:''}${controlBioActive && controlBio?`\n\t\t\tbio="${controlBio}"`:''}${controlSamplePostsToggle?'\n\t\t\tposts={postData}':''}\n\t\t   ${controlShowAvatarOnIdleToggle?' avatarOnIdle':''}${controlShowUsernameOnIdleToggle?' usernameOnIdle':''}${controlIconOnlyToggle?' iconOnlyIdle':''}${controlIsVerified?' isVerified':''}${controlMonotone?' monotone':''}${controlFollowButton?' followButton':''} />
     )
 }
 `)
