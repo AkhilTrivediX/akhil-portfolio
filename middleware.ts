@@ -11,7 +11,7 @@ export function middleware(req: NextRequest){
     }
 
     if(host.includes('vinima')){
-        return NextResponse.rewrite(new URL(process.env.NEXT_PUBLIC_BASE_URL+'/vinima'));
+        return NextResponse.rewrite(new URL(`/vinima`, req.url));
     }
 
     return NextResponse.next();
