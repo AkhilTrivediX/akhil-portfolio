@@ -20,14 +20,16 @@ export function middleware(req: NextRequest){
     
 
     if(componentLibraries.includes(subdomain) && !pathname.endsWith('.json')){
+        console.log('Taking to component path by middleware.')
         return NextResponse.rewrite(new URL('/'+subdomain, req.url));
     }
 
     if(subdomain){
-        const targetUrl = (new URL('/'+subdomain+pathname, req.url)).toString()
-        console.log('Targeting to url:',targetUrl)
+        const targetUrl = (new URL('/'+subdomain+pathname, req.url))
+        console.log('Rewriting to:', targetUrl)
         return NextResponse.rewrite(targetUrl);
     }
 
+    console.log('Going through middleware normally.')
     return NextResponse.next();
 }

@@ -43,7 +43,7 @@ export default function ViInstagram({layoutId='Vinima',usernameOnIdle=true, ...p
 
     return(
         <MotionConfig >
-            <motion.main className="relative flex justify-center"  onHoverStart={() => setComponentState('profile')} onHoverEnd={() => setComponentState('idle')}>
+            <motion.main className="vinima relative flex justify-center"  onHoverStart={() => setComponentState('profile')} onHoverEnd={() => setComponentState('idle')}>
 
             <MotionButton variant='outline' className="gap-2 p-2 opacity-0 pointer-events-none">
 
