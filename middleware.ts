@@ -19,7 +19,7 @@ export function middleware(req: NextRequest){
     const componentLibraries = ['vinima'];
     
 
-    if(componentLibraries.includes(subdomain) && pathname.indexOf('.')!=-1){
+    if(componentLibraries.includes(subdomain) && pathname.indexOf('.')==-1){
         console.log('Taking to component path by middleware.')
         return NextResponse.rewrite(new URL('/'+subdomain, req.url));
     }
