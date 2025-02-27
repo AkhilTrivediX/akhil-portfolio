@@ -19,12 +19,12 @@ export function middleware(req: NextRequest){
     const componentLibraries = ['vinima'];
     
 
-    if(componentLibraries.includes(subdomain) && !pathname.endsWith('.json')){
+    if(componentLibraries.includes(subdomain) && pathname.indexOf('.')!=-1){
         console.log('Taking to component path by middleware.')
         return NextResponse.rewrite(new URL('/'+subdomain, req.url));
     }
 
-    if(subdomain){
+    if(subdomain && subdomain!='www' && subdomain.length<12){
         const targetUrl = (new URL('/'+subdomain+pathname, req.url))
         console.log('Rewriting to:', targetUrl)
         return NextResponse.rewrite(targetUrl);
