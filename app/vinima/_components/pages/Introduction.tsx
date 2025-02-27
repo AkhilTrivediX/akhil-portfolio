@@ -1,4 +1,4 @@
-import XSocial from "@/components/vinima/xSocial";
+import XSocial from "@/components/vinimax/xSocial";
 
 export default function IntroductionPage(){
     return (

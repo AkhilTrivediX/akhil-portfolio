@@ -1,5 +1,5 @@
 import { Button } from "@/components/ui/button";
-import ViInstagram, {InstaPostsType} from "@/components/vinima/instagram"; 
+import ViInstagram, {InstaPostsType} from "@/components/vinimax/instagram"; 
 import ComponentPreview from "../componentPreview";
 import { act, useCallback, useEffect, useMemo, useState } from "react";
 import { FaCheck} from "react-icons/fa";
