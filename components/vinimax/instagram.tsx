@@ -1,7 +1,7 @@
 /* eslint-disable @next/next/no-img-element */
 'use client'
 
-import {  useState } from "react";
+import {  useEffect, useRef, useState } from "react";
 import { AnimatePresence, motion, MotionConfig } from "motion/react";
 import { Button } from "@/components/ui/button";
 
@@ -36,10 +36,42 @@ const CAPTION_WORD_LIMIT = 30
 export default function ViInstagram({layoutId='Vinima',usernameOnIdle=true, ...props}: InstaData){
     const [componentState, setComponentState] = useState('idle')
     const MotionButton = motion.create(Button)
+    const liveComponent = useRef(null);
+    const [expandDirection, setExpandDirection] = useState<{[K in 'top' | 'left' | 'bottom' | 'right' | 'translate']?: string}>({top: '50%', left: '50%', translate: '50%'});
 
-    
+    const updateExpandDirection = () => {
+        if(liveComponent.current){
+            const target = liveComponent.current as HTMLElement
+            const boundingBox = target.getBoundingClientRect()
+            const positionX = (boundingBox.x+boundingBox.width/2) / window.innerWidth * 100;
+            const positionY = (boundingBox.y+boundingBox.height/2) / window.innerHeight * 100;
+            let direction: {[K in 'top' | 'left' | 'bottom' | 'right' | 'translate']?: string} = {};
+            let translateX='0%'
+            let translateY='0%'
+            positionX<=20?(direction.left='0%'):positionX>80?(direction.right='0%'):(direction.left='50%', translateX='-50%');
+            positionY<=20?(direction.top='0%'):positionY>80?(direction.bottom='0%'):(direction.top='50%', translateY='-50%')
+            direction.translate = `${translateX} ${translateY}`
+            setExpandDirection(direction)
+        }
+    }
 
-    
+    useEffect(() => {
+        updateExpandDirection();
+
+        window.addEventListener("resize", updateExpandDirection);
+        window.addEventListener("scroll", updateExpandDirection);
+
+        const observer = new MutationObserver(updateExpandDirection);
+        if (liveComponent.current) {
+            observer.observe(liveComponent.current, { attributes: true, childList: true, subtree: true });
+        }
+
+        return () => {
+            window.removeEventListener("resize", updateExpandDirection);
+            window.removeEventListener("scroll", updateExpandDirection);
+            observer.disconnect();
+        };
+    }, []);
 
     return(
         <MotionConfig >
@@ -55,7 +87,7 @@ export default function ViInstagram({layoutId='Vinima',usernameOnIdle=true, ...p
                 
                 <AnimatePresence initial={false}>
                 {
-                    componentState=='idle' && <MotionButton layoutId={layoutId+'component'} variant='outline' className="gap-2 p-2 absolute" style={{translate: '-50% -50%', top: '50%', left: '50%'}}>
+                    componentState=='idle' && <MotionButton layoutId={layoutId+'component'} variant='outline' className="gap-2 p-2 absolute" style={{translate: '-50% -50%', top: '50%', left: '50%'}} ref={liveComponent}>
 
                     <motion.div layoutId={layoutId+'pfp'} className="inline-flex h-full aspect-square overflow-hidden items-center" style={{borderRadius: '4px'}}>{props.avatarOnIdle?<img src={props.avatarUrl} alt="Profile Insta"/>:<FaInstagram size={22}/>}</motion.div>
 
@@ -66,7 +98,7 @@ export default function ViInstagram({layoutId='Vinima',usernameOnIdle=true, ...p
                     </MotionButton>
                 }
                 
-                {componentState=='profile' && <motion.div key='detailInstaView' layoutId={layoutId+'component'} className="flex flex-col absolute w-[470px] bg-background border border-input rounded-md p-2 gap-2 z-[99]" style={{translate: '-50% -50%', top: '50%', left: '50%'}}>
+                {componentState=='profile' && <motion.div key='detailInstaView' layoutId={layoutId+'component'} className="flex flex-col absolute w-[470px] bg-background border border-input rounded-md p-2 gap-2 z-[99]" style={expandDirection}>
 
                         <div className="flex gap-4">
 
@@ -123,7 +155,7 @@ export default function ViInstagram({layoutId='Vinima',usernameOnIdle=true, ...p
 
                     </motion.div>}
                     {
-                        (props.posts||[]).map((post, i)=>componentState==('post '+i) ? <motion.div key='detailPostView' layoutId={layoutId+'component'} className="flex flex-col absolute bg-background border border-input rounded-md" style={{translate: '-50% -50%', top: '50%', left: '50%'}}>
+                        (props.posts||[]).map((post, i)=>componentState==('post '+i) ? <motion.div key='detailPostView' layoutId={layoutId+'component'} className="flex flex-col absolute bg-background border border-input rounded-md" style={expandDirection}>
                             <div className="flex p-2 gap-2 border-b border-input h-10 items-center text-sm relative">
                                 <motion.div layoutId={layoutId+'pfp'} className="inline-flex h-full aspect-square overflow-hidden" style={{borderRadius: '50px'}}><img src={props.avatarUrl} alt="Profile Insta"/></motion.div>
     
