@@ -4,9 +4,6 @@
 import { useRef, useState } from "react";
 import { AnimatePresence, delay, motion, MotionConfig } from "motion/react";
 import { Button } from "@/components/ui/button";
-import { FaComment, FaInstagram } from "react-icons/fa";
-import { FaArrowUpRightFromSquare } from "react-icons/fa6";
-import { MdVerified } from "react-icons/md";
 
 export type InstaPostsType =  
 {
@@ -249,6 +246,73 @@ const FaHeart = ({style}:{style?:React.CSSProperties}) => (
         strokeLinejoin="round"
         d="M462.3 62.6C407.5 15.9 326 24.3 275.7 76.2L256 96.5l-19.7-20.3C186.1 24.3 104.5 15.9 49.7 62.6c-62.8 53.6-66.1 149.8-9.9 207.9l193.5 199.8c12.5 12.9 32.8 12.9 45.3 0l193.5-199.8c56.3-58.1 53-154.3-9.8-207.9z"
         />
+    </svg>
+)
+
+const FaComment = ({style}:{style?:React.CSSProperties}) => (
+    <svg
+        xmlns="http://www.w3.org/2000/svg"
+        fill="currentColor"
+        width={'1em'}
+        height={'1em'}      
+        stroke="currentColor"
+        viewBox="0 0 512 512"
+        style={style}
+    >
+        <path
+        strokeLinecap="round"
+        strokeLinejoin="round"
+        d="M256 32C114.6 32 0 125.1 0 240c0 49.6 21.4 95 57 130.7C44.5 421.1 2.7 466 2.2 466.5c-2.2 2.3-2.8 5.7-1.5 8.7S4.8 480 8 480c66.3 0 116-31.8 140.6-51.4 32.7 12.3 69 19.4 107.4 19.4 141.4 0 256-93.1 256-208S397.4 32 256 32z"
+        />
+    </svg>
+)
+
+const FaInstagram = ({style, size}:{style?:React.CSSProperties, size?:number}) => (
+    <svg
+        xmlns="http://www.w3.org/2000/svg"
+        fill="currentColor"
+        width={size || '1em'}
+        height={size || '1em'}      
+        stroke="currentColor"
+        viewBox="0 0 512 512"
+        style={style}
+    >
+        <path
+        strokeLinecap="round"
+        strokeLinejoin="round"
+        d="M224.1 141c-63.6 0-114.9 51.3-114.9 114.9s51.3 114.9 114.9 114.9S339 319.5 339 255.9 287.7 141 224.1 141zm0 189.6c-41.1 0-74.7-33.5-74.7-74.7s33.5-74.7 74.7-74.7 74.7 33.5 74.7 74.7-33.6 74.7-74.7 74.7zm146.4-194.3c0 14.9-12 26.8-26.8 26.8-14.9 0-26.8-12-26.8-26.8s12-26.8 26.8-26.8 26.8 12 26.8 26.8zm76.1 27.2c-1.7-35.9-9.9-67.7-36.2-93.9-26.2-26.2-58-34.4-93.9-36.2-37-2.1-147.9-2.1-184.9 0-35.8 1.7-67.6 9.9-93.9 36.1s-34.4 58-36.2 93.9c-2.1 37-2.1 147.9 0 184.9 1.7 35.9 9.9 67.7 36.2 93.9s58 34.4 93.9 36.2c37 2.1 147.9 2.1 184.9 0 35.9-1.7 67.7-9.9 93.9-36.2 26.2-26.2 34.4-58 36.2-93.9 2.1-37 2.1-147.8 0-184.8zM398.8 388c-7.8 19.6-22.9 34.7-42.6 42.6-29.5 11.7-99.5 9-132.1 9s-102.7 2.6-132.1-9c-19.6-7.8-34.7-22.9-42.6-42.6-11.7-29.5-9-99.5-9-132.1s-2.6-102.7 9-132.1c7.8-19.6 22.9-34.7 42.6-42.6 29.5-11.7 99.5-9 132.1-9s102.7-2.6 132.1 9c19.6 7.8 34.7 22.9 42.6 42.6 11.7 29.5 9 99.5 9 132.1s2.7 102.7-9 132.1z"
+        />
+    </svg>
+)
+
+const FaArrowUpRightFromSquare = ({style, size}:{style?:React.CSSProperties, size?:number}) => (
+    <svg
+        xmlns="http://www.w3.org/2000/svg"
+        fill="currentColor"
+        width={size || '1em'}
+        height={size || '1em'}      
+        stroke="currentColor"
+        viewBox="0 0 512 512"
+        style={style}
+    >
+        <path
+        strokeLinecap="round"
+        strokeLinejoin="round"
+        d="M320 0c-17.7 0-32 14.3-32 32s14.3 32 32 32h82.7L201.4 265.4c-12.5 12.5-12.5 32.8 0 45.3s32.8 12.5 45.3 0L448 109.3V192c0 17.7 14.3 32 32 32s32-14.3 32-32V32c0-17.7-14.3-32-32-32H320zM80 32C35.8 32 0 67.8 0 112V432c0 44.2 35.8 80 80 80H400c44.2 0 80-35.8 80-80V320c0-17.7-14.3-32-32-32s-32 14.3-32 32V432c0 8.8-7.2 16-16 16H80c-8.8 0-16-7.2-16-16V112c0-8.8 7.2-16 16-16H192c17.7 0 32-14.3 32-32s-14.3-32-32-32H80z"
+        />
+    </svg>
+)
+
+const MdVerified = ({style, size}:{style?:React.CSSProperties, size?:number}) => (
+    <svg
+        xmlns="http://www.w3.org/2000/svg"
+        fill="currentColor"
+        width={size || '1em'}
+        height={size || '1em'}   
+        viewBox="0 -960 960 960"
+        style={style}
+    >
+        <path d="m344-60-76-128-144-32 14-148-98-112 98-112-14-148 144-32 76-128 136 58 136-58 76 128 144 32-14 148 98 112-98 112 14 148-144 32-76 128-136-58-136 58Zm94-278 226-226-56-58-170 170-86-84-56 56 142 142Z"/>
     </svg>
 )
 

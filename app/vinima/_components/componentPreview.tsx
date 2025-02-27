@@ -33,7 +33,7 @@ export default function ComponentPreview({previewComponent,code, controlsCompone
                 {currentTab == 'preview' && <motion.div className="ring-offset-background focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 relative rounded-md border w-full min-h-[350px] mt-4 flex items-center justify-center">
                     {previewComponent}
                 </motion.div>}
-                {currentTab=='code' && <motion.div className="ring-offset-background focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 relative rounded-md border w-full h-[350px] mt-4 flex codeblock">
+                {currentTab=='code' && <motion.div className="ring-offset-background focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 relative rounded-md border w-full h-[350px] mt-4 flex codeblock overflow-hidden">
                     <ReactMarkdown className={'markdown w-full h-full overflow-y-scroll'}
                 rehypePlugins={[rehypeHighlight]}
             >{`\`\`\`tsx

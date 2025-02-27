@@ -41,7 +41,7 @@ export default function InstagramPage(){
             caption: 'Double the fluff, double the cuteness! 🐱🐱💕 #TwinTrouble #FluffyBabies #CutenessOverload',
             likes: '8,912',
             comments: '421',
-            dateTime: '2024-01-19T12:20:35.000Z'
+            dateTime: '2024-01-19T12:20:35.000Z',
         }
     ]
     
@@ -107,7 +107,7 @@ export function InstagramDemo() {
             caption: 'Double the fluff, double the cuteness! 🐱🐱💕 #TwinTrouble #FluffyBabies #CutenessOverload',
             likes: '8,912',
             comments: '421',
-            dateTime: '2024-01-19T12:20:35.000Z'
+            dateTime: '2024-01-19T12:20:35.000Z',
         }
     ]`:''}
     return(
