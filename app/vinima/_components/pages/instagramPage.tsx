@@ -169,7 +169,7 @@ function TextControl({name, currentValue, onChange, description, active=true, se
             {!setActive?<div className="min-w-[20px] min-h-[20px] flex items-center justify-center bg-input/50 text-white/20 border border-input rounded-sm"><FaCheck size={10}/></div>:<div className={"min-w-[20px] min-h-[20px] flex items-center justify-center border border-input rounded-sm "+(active?"bg-foreground text-background":"bg-input")} onClick={()=>setActive(!active)}>{active && <FaCheck size={10}/>}</div>}
             <Tooltip>
                 <TooltipTrigger><label className={"text-sm font-medium leading-none text-nowrap"}>{name}</label></TooltipTrigger>
-                <TooltipContent className="opacity-80 font-light">{description}</TooltipContent>
+                <TooltipContent className="font-light">{description}</TooltipContent>
             </Tooltip>
             <input className="flex h-10 rounded-md border border-input bg-background px-3 py-2 text-base ring-offset-background file:border-0 file:bg-transparent file:text-sm file:font-medium file:text-foreground placeholder:text-muted-foreground focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 disabled:cursor-not-allowed disabled:opacity-50 md:text-sm" disabled={!active} style={{width: size}} type="text" name={name} value={value} onChange={(e)=>{setValue(e.target.value)}}/>
         </div>
@@ -190,7 +190,7 @@ function TextAreaControl({name, currentValue, onChange, description, active=true
             {!setActive?<div className="min-w-[20px] min-h-[20px] flex items-center justify-center bg-input/50 text-white/20 border border-input rounded-sm"><FaCheck size={10}/></div>:<div className={"min-w-[20px] min-h-[20px] flex items-center justify-center border border-input rounded-sm "+(active?"bg-foreground text-background":"bg-input")} onClick={()=>setActive(!active)}>{active && <FaCheck size={10}/>}</div>}
             <Tooltip>
                 <TooltipTrigger><label className={"text-sm font-medium leading-none text-nowrap"}>{name}</label></TooltipTrigger>
-                <TooltipContent className="opacity-80 font-light">{description}</TooltipContent>
+                <TooltipContent className="font-light">{description}</TooltipContent>
             </Tooltip>
             <textarea className="flex min-h-[80px] w-full rounded-md border border-input bg-background px-3 py-2 text-base ring-offset-background placeholder:text-muted-foreground focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 disabled:cursor-not-allowed disabled:opacity-50 md:text-sm resize-none" disabled={!active} style={{width: size}} name={name} value={value} onChange={(e)=>{setValue(e.target.value)}}/>
         </div>
@@ -204,7 +204,7 @@ function ToggleControl({name,value, onChange, description}:{name: string, value:
                 <TooltipTrigger>
                     <Button variant={'outline'} onClick={()=>onChange(!value)} className={value?"text-foreground bg-foreground/10 border-foreground/10":"text-muted-foreground"}>{name}</Button>
                 </TooltipTrigger>
-                <TooltipContent className="opacity-80 font-light">{description}</TooltipContent>
+                <TooltipContent className="font-light">{description}</TooltipContent>
             </Tooltip>
         </div>
     )
@@ -221,7 +221,7 @@ function PairControl({name, currentValue, onChange, description, active, setActi
             {!setActive?<div className="min-w-[20px] min-h-[20px] flex items-center justify-center bg-input/50 text-white/20 border border-input rounded-sm"><FaCheck size={10}/></div>:<div className={"min-w-[20px] min-h-[20px] flex items-center justify-center border border-input rounded-sm "+(active?"bg-foreground text-background":"bg-input")} onClick={()=>setActive(!active)}>{active && <FaCheck size={10}/>}</div>}
             <Tooltip>
                 <TooltipTrigger><label className={"text-sm font-medium leading-none text-nowrap"}>{name}</label></TooltipTrigger>
-                <TooltipContent className="opacity-80 font-light">{description}</TooltipContent>
+                <TooltipContent className="font-light">{description}</TooltipContent>
             </Tooltip>
             <div className="flex gap-2 items-center flex-wrap">
                 {value.map((pair, ind)=>

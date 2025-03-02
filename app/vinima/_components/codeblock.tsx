@@ -14,7 +14,7 @@ export default function Codeblock({code, language='tsx'}:{code: string, language
     const customLanguages = ['']
     return(
                     <>
-                {!customLanguages.includes(language)?(<ReactMarkdown className={'markdown w-full h-full overflow-y-scroll'}
+                {!customLanguages.includes(language)?(<ReactMarkdown className={'markdown w-full h-full overflow-y-scroll no-scrollbars'}
                      rehypePlugins={[rehypeHighlight]}
                     >{`\`\`\`${language || 'tsx'}
 ${code}

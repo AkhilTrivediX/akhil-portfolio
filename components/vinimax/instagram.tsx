@@ -170,7 +170,7 @@ export default function ViInstagram({layoutId='Vinima',usernameOnIdle=true, ...p
 
                                 {((usingStats && usingStats.length>0) || props.fetchLatest?.includes('stats')) && <motion.div className="w-full flex justify-between gap-4 text-sm" exit={{y: 10, opacity: 0}} transition={{duration: 0.1}}>
                                         {
-                                            usingStats && usingStats.length>0?usingStats.map((item, index) => (
+                                            usingStats && usingStats.length>0?usingStats.slice(0,3).map((item, index) => (
                                                 <motion.div key={index} initial={{opacity: 0, y: 10}} animate={{opacity: 1, y: 0}} transition={{delay: 0.2+index*0.07, bounce: 0}} className="flex gap-1">
                                                     <StaggeredText className="font-semibold" delay={0.2+index*0.07}>{item.value}</StaggeredText>
                                                     <motion.span initial={{opacity: 0}} animate={{opacity: 1, transition: {duration: 0.7}}}>{item.name}</motion.span>
