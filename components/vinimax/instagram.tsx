@@ -36,6 +36,7 @@ const CAPTION_WORD_LIMIT = 30
 
 export default function ViInstagram({layoutId='Vinima',usernameOnIdle=true, ...props}: InstaData){
     const [componentState, setComponentState] = useState('idle')
+    const [previousState, setPreviousState] = useState('idle')
     const MotionButton = motion.create(Button)
     const liveComponent = useRef(null);
     const [expandDirection, setExpandDirection] = useState<{[K in 'top' | 'left' | 'bottom' | 'right' | 'translate']?: string}>({top: '50%', left: '50%', translate: '50%'});
@@ -43,6 +44,7 @@ export default function ViInstagram({layoutId='Vinima',usernameOnIdle=true, ...p
     const [usingName, setUsingName] = useState(props.name || '')
     const [usingBio, setUsingBio] = useState(props.bio || '')
     const [usingStats, setUsingStats] = useState(props.stats || [])
+    const [hoverDivDimensions, setHoverDivDimensions] = useState({width: '100%', height: '100%'});
 
 
 
@@ -125,7 +127,8 @@ export default function ViInstagram({layoutId='Vinima',usernameOnIdle=true, ...p
 
     return(
         <MotionConfig >
-            <motion.main className="vinima relative flex justify-center"  onHoverStart={() => setComponentState('profile')} onHoverEnd={() => setComponentState('idle')}>
+            <motion.main className="vinima relative flex justify-center"  onHoverStart={() => { setPreviousState(componentState);setComponentState('profile');}} onHoverEnd={() => { setPreviousState(componentState);setComponentState('idle')}}>
+            <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2" style={{width: hoverDivDimensions.width, height: hoverDivDimensions.height}} onMouseLeave={()=>{setHoverDivDimensions({width: '100%', height: '100%'});}}></div>
 
             <MotionButton variant='outline' className="gap-2 p-2 opacity-0 pointer-events-none">
 
@@ -148,7 +151,7 @@ export default function ViInstagram({layoutId='Vinima',usernameOnIdle=true, ...p
                     </MotionButton>
                 }
                 
-                {componentState=='profile' && <motion.div key='detailInstaView' layoutId={layoutId+'component'} className="flex flex-col absolute w-[470px] bg-background border border-input rounded-md p-2 gap-2 z-[99]" style={expandDirection}>
+                {componentState=='profile' && <motion.div key='detailInstaView' layoutId={layoutId+'component'} className="flex flex-col absolute w-[470px] bg-background border border-input rounded-md p-2 gap-2 z-[99]" style={expandDirection} onMouseEnter={(e)=>{setHoverDivDimensions({width: e.currentTarget.offsetWidth+'px', height: previousState=='idle'?e.currentTarget.offsetHeight+'px':hoverDivDimensions.height})}}>
 
                         <div className="flex gap-4">
 
@@ -196,7 +199,7 @@ export default function ViInstagram({layoutId='Vinima',usernameOnIdle=true, ...p
                         {props.posts && <div className="flex flex-wrap justify-start items-center w-[max-content] gap-4 max-w-[450px]">
                             {
                                 props.posts.map((post, i)=>(
-                                    <motion.div layoutId={layoutId+'postImage '+i} initial={{scale: 0.5, opacity: 0, y: 10}} animate={{scale: 1, opacity: 1, y: 0, transition: {delay: 0.3+i*0.05}}} exit={{scale: 0.5, opacity: 0, y: -10, transition: {delay: 0}}} key={i} className="w-[100px] aspect-[4/5] border border-input rounded-sm overflow-hidden cursor-pointer relative" onClick={()=>setComponentState('post '+i)}>
+                                    <motion.div layoutId={layoutId+'postImage '+i} initial={{scale: 0.5, opacity: 0, y: 10}} animate={{scale: 1, opacity: 1, y: 0, transition: {delay: 0.3+i*0.05}}} exit={{scale: 0.5, opacity: 0, y: -10, transition: {delay: 0}}} key={i} className="w-[100px] aspect-[4/5] border border-input rounded-sm overflow-hidden cursor-pointer relative" onClick={()=>{ setPreviousState(componentState);setComponentState('post '+i)}}>
                                         <motion.img src={post.imageUrl} alt='instagram post' className="w-full h-full object-cover object-center"/>
                                         <div className="absolute w-full h-full top-0 left-0 bg-black/20 opacity-0 hover:opacity-100 transition-all duration-300 flex justify-center items-end p-2">
                                             <div className="flex gap-2 items-center justify-center text-xs opacity-90 text-white">
@@ -211,7 +214,9 @@ export default function ViInstagram({layoutId='Vinima',usernameOnIdle=true, ...p
 
                     </motion.div>}
                     {
-                        (props.posts||[]).map((post, i)=>componentState==('post '+i) ? <motion.div key='detailPostView' layoutId={layoutId+'component'} className="flex flex-col absolute bg-background border border-input rounded-md" style={expandDirection}>
+                        (props.posts||[]).map((post, i)=>componentState==('post '+i) ? <motion.div key='detailPostView' layoutId={layoutId+'component'} className="flex flex-col absolute bg-background border border-input rounded-md" style={expandDirection} onMouseEnter={(e)=>{
+                            if(!e.currentTarget || !e.currentTarget.offsetHeight)return;
+                            setHoverDivDimensions({width: hoverDivDimensions.width, height: e.currentTarget.offsetHeight+'px'})}}>
                             <div className="flex p-2 gap-2 border-b border-input h-10 items-center text-sm relative">
                                 <motion.div layoutId={layoutId+'pfp'} className="inline-flex h-full aspect-square overflow-hidden" style={{borderRadius: '50px'}}>{usingAvatarUrl?<img src={usingAvatarUrl} className="w-full h-full object-cover object-center" alt="Profile Insta"/>:<Ghost/>}</motion.div>
     
@@ -221,7 +226,7 @@ export default function ViInstagram({layoutId='Vinima',usernameOnIdle=true, ...p
                                     {post.dateTime && <StaggeredText className="text-sm opacity-70" delay={0.2} stagger={0.01}>{getReadableDate(post.dateTime)}</StaggeredText>}
                                 </motion.div>
 
-                                <div className="absolute top-1/2 -translate-y-1/2 right-2 cursor-pointer text-lg" onClick={()=>{setComponentState('profile')}}><BsX/></div>
+                                <div className="absolute top-1/2 -translate-y-1/2 right-2 cursor-pointer text-lg" onClick={()=>{{ setPreviousState(componentState);setComponentState('profile')}}}><BsX/></div>
                             </div>
     
                             <div className="p-1">
