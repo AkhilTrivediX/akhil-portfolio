@@ -4,8 +4,6 @@
 import {  useCallback, useEffect, useRef, useState } from "react";
 import { AnimatePresence, motion, MotionConfig } from "motion/react";
 import { Button } from "@/components/ui/button";
-import getInstaData from "./getInstaData";
-import { timeStamp } from "console";
 
 export type InstaPostsType =  
 {
