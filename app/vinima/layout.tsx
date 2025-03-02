@@ -1,4 +1,5 @@
 import { GeistSans } from 'geist/font/sans';
+import { GeistMono } from 'geist/font/mono'
 import './vinimastyles.css'
 
 export default function RootLayout({
@@ -6,9 +7,9 @@ export default function RootLayout({
   }: Readonly<{
     children: React.ReactNode;
   }>) {
-
+    
     
     return (
-        <main className={GeistSans.className+' dark text-foreground'}>{children}</main>
+        <main className={GeistSans.className+' '+GeistMono.variable+'dark text-foreground'}>{children}</main>
     )
   }

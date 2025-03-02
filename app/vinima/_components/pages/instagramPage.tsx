@@ -7,6 +7,7 @@ import { FiPlus } from "react-icons/fi";
 import { FaC } from "react-icons/fa6";
 import { TooltipProvider, Tooltip, TooltipContent, TooltipTrigger } from "@/components/ui/tooltip";
 import * as SwitchPrimitives from "@radix-ui/react-switch";
+import InstallationGuide from "../installationGuide";
 
 
 
@@ -46,11 +47,11 @@ export default function InstagramPage(){
     ]
     
     const defaultControls = {
-        username: 'vinima',
-        avatarUrl: 'https://images.unsplash.com/photo-1499714608240-22fc6ad53fb2?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=crop&w=76&q=80',
-        name: 'Vinima',
-        stats: [{name: 'Posts', value: '1.2K'},{name: 'Followers', value: '42.3K'}, {name: 'Following', value: '763'}],
-        bio: 'Socials component library for react.',
+        username: 'cats_of_instagram',
+        avatarUrl: 'https://moderncat.com/wp-content/uploads/2013/09/Ragdoll-Header_bigstock-408978611_Rawlik-1440x980.jpg',
+        name: 'Ragdoll',
+        stats: [{name: 'Followers', value: '2.9K'},{name:'Following', value: '845'}],
+        bio: 'I\'m the best cat 😺',
         isVerified: true,
         monotone: false,
         followButton: true,
@@ -127,7 +128,7 @@ export function InstagramDemo() {
     return (
         <TooltipProvider>
             <main>
-                <ComponentPreview code={codeFn} previewComponent={<ViInstagram avatarUrl={controlAvatarUrl} username={controlUsername} avatarOnIdle={controlShowAvatarOnIdleToggle} usernameOnIdle={controlShowUsernameOnIdleToggle} iconOnlyIdle={controlIconOnlyToggle} name={controlNameActive?controlName:undefined} bio={controlBioActive?controlBio:undefined} isVerified={controlIsVerified} monotone={controlMonotone} stats={controlStatsActive?controlStats:undefined} followButton={controlFollowButton} posts={controlSamplePostsToggle?samplePosts:undefined}/>} controlsComponent={
+                <ComponentPreview code={codeFn} previewComponent={<ViInstagram avatarUrl={controlAvatarUrl} username={controlUsername} avatarOnIdle={controlShowAvatarOnIdleToggle} usernameOnIdle={controlShowUsernameOnIdleToggle} iconOnlyIdle={controlIconOnlyToggle} name={controlNameActive?controlName:undefined} bio={controlBioActive?controlBio:undefined} isVerified={controlIsVerified} monotone={controlMonotone} stats={controlStatsActive?controlStats:undefined} followButton={controlFollowButton} posts={controlSamplePostsToggle?samplePosts:undefined} fetchLatest={[]}/>} controlsComponent={
                 <div className="flex flex-col gap-1 p-2 w-full h-full">
                     <div className="flex gap-2">
                         <TextControl name="Avatar Url" size="300px" currentValue={controlAvatarUrl} onChange={(val) => setControlAvatarUrl(val)} description="Url of the profile picture"/>
@@ -148,7 +149,7 @@ export function InstagramDemo() {
                         <ToggleControl name="Show Sample Posts" value={controlSamplePostsToggle} onChange={(val) => setControlSamplePostsToggle(val)} description="To demonstrate how posts look with the components."/>
                     </div>
                 </div>}/>
-                <div className="font-heading mt-12 scroll-m-20 border-b pb-2 text-2xl font-semibold tracking-tight first:mt-0">Installation</div>
+                <InstallationGuide/>
             </main>
         </TooltipProvider>
         

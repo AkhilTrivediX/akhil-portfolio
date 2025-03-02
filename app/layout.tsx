@@ -21,7 +21,7 @@ export default function RootLayout({
 }>) {
   return (
     <html lang="en">
-      <body className={`font-kanit relative`}>
+      <body className={`font-kanit relative dark`}>
         <ThemeProvider>
           {children}
           <Analytics />

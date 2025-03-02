@@ -13,4 +13,5 @@
     white-space: pre-wrap; /* Allows wrapping inside the code block */
     word-break: break-word; /* Ensures long words break if necessary */
     overflow-wrap: break-word;
+    @apply font-geistmono;
 }

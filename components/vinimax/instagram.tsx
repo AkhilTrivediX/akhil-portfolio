@@ -1,9 +1,11 @@
 /* eslint-disable @next/next/no-img-element */
 'use client'
 
-import {  useEffect, useRef, useState } from "react";
+import {  useCallback, useEffect, useRef, useState } from "react";
 import { AnimatePresence, motion, MotionConfig } from "motion/react";
 import { Button } from "@/components/ui/button";
+import getInstaData from "./getInstaData";
+import { timeStamp } from "console";
 
 export type InstaPostsType =  
 {
@@ -17,7 +19,7 @@ export type InstaPostsType =
 }[]
 type InstaData = {
     layoutId?:string,
-    avatarUrl: string,
+    avatarUrl?: string,
     username: string,
     name?: string,
     bio?: string,
@@ -29,7 +31,8 @@ type InstaData = {
     iconOnlyIdle?: boolean,
     avatarOnIdle?:boolean,
     usernameOnIdle?:boolean,
-    monotone?: boolean
+    monotone?: boolean,
+    fetchLatest?: ('avatar' | 'name' | 'bio' | 'stats')[]
 }
 const CAPTION_WORD_LIMIT = 30
 
@@ -38,6 +41,55 @@ export default function ViInstagram({layoutId='Vinima',usernameOnIdle=true, ...p
     const MotionButton = motion.create(Button)
     const liveComponent = useRef(null);
     const [expandDirection, setExpandDirection] = useState<{[K in 'top' | 'left' | 'bottom' | 'right' | 'translate']?: string}>({top: '50%', left: '50%', translate: '50%'});
+    const [usingAvatarUrl, setUsingAvatarUrl] = useState(props.avatarUrl || '')
+    const [usingName, setUsingName] = useState(props.name || '')
+    const [usingBio, setUsingBio] = useState(props.bio || '')
+    const [usingStats, setUsingStats] = useState(props.stats || [])
+
+
+
+    
+
+    
+    useEffect(()=>{
+
+        function updateData(data:{avatar?: string, name?: string, bio?: string, stats?: {name: string, value: string}[]}){
+            
+            if(data.avatar && props.fetchLatest?.includes('avatar')){
+                setUsingAvatarUrl(data.avatar)
+            }
+            if(data.stats && props.fetchLatest?.includes('stats')){
+                setUsingStats(data.stats)
+            }
+            if(data.name && props.fetchLatest?.includes('name')){
+                setUsingName(data.name)
+            }
+            if(data.bio && props.fetchLatest?.includes('bio')){
+                setUsingBio(data.bio)
+            }
+        }
+        if(props.fetchLatest && props.fetchLatest.length>0){
+            const cache = localStorage.getItem('vinima-instagram-cache')
+            if(cache){
+                const data = JSON.parse(cache);
+                if(data.username === props.username && Date.now() - data.timestamp < 10*1000){
+                        updateData(data);
+                        return;
+                    }
+            }
+            fetch('http://localhost:3000/api/vinima-instagram?username='+props.username).then(resp=>{
+                if(resp.ok){
+                    resp.json().then(data=>{
+                        if(data.avatar || data.stats || data.bio || data.name){
+                            //Save it to local storage
+                            localStorage.setItem('vinima-instagram-cache', JSON.stringify({...data, timestamp: Date.now(), username: props.username}))
+                        }
+                        updateData(data)
+                    })
+                }
+            })
+        }
+    },[props.fetchLatest, props.username])
 
     const updateExpandDirection = () => {
         if(liveComponent.current){
@@ -79,7 +131,7 @@ export default function ViInstagram({layoutId='Vinima',usernameOnIdle=true, ...p
 
             <MotionButton variant='outline' className="gap-2 p-2 opacity-0 pointer-events-none">
 
-                <motion.div className="inline-flex h-full aspect-square overflow-hidden items-center" style={{borderRadius: '4px'}}>{props.avatarOnIdle?<img src={props.avatarUrl} alt="Profile Insta"/>:<FaInstagram size={22}/>}</motion.div>
+                <motion.div className="inline-flex h-full aspect-square overflow-hidden items-center" style={{borderRadius: '4px'}}>{props.avatarOnIdle?(usingAvatarUrl?<img src={usingAvatarUrl} className="w-full h-full object-cover object-center" alt="Profile Insta"/>:<Ghost/>):<FaInstagram size={22}/>}</motion.div>
 
                 {!props.iconOnlyIdle && <motion.span className="" initial={{opacity: 1}} exit={{opacity: 0}}>{usernameOnIdle?props.username:'Instagram'}</motion.span>}
 
@@ -89,7 +141,7 @@ export default function ViInstagram({layoutId='Vinima',usernameOnIdle=true, ...p
                 {
                     componentState=='idle' && <MotionButton layoutId={layoutId+'component'} variant='outline' className="gap-2 p-2 absolute" style={{translate: '-50% -50%', top: '50%', left: '50%'}} ref={liveComponent}>
 
-                    <motion.div layoutId={layoutId+'pfp'} className="inline-flex h-full aspect-square overflow-hidden items-center" style={{borderRadius: '4px'}}>{props.avatarOnIdle?<img src={props.avatarUrl} alt="Profile Insta"/>:<FaInstagram size={22}/>}</motion.div>
+                    <motion.div layoutId={layoutId+'pfp'} className="inline-flex h-full aspect-square overflow-hidden items-center" style={{borderRadius: '4px'}}>{props.avatarOnIdle?(usingAvatarUrl?<img src={usingAvatarUrl} className="w-full h-full object-cover object-center" alt="Profile Insta"/>:<Ghost/>):<FaInstagram size={22}/>}</motion.div>
 
                     <AnimatePresence propagate>
                     {!props.iconOnlyIdle && <motion.span layoutId={layoutId+'username'} className="" initial={{opacity: 1}} animate={{opacity: 1}} exit={{opacity: 0}}>{usernameOnIdle?props.username:'Instagram'}</motion.span>}
@@ -103,7 +155,7 @@ export default function ViInstagram({layoutId='Vinima',usernameOnIdle=true, ...p
                         <div className="flex gap-4">
 
                             <motion.div layoutId={layoutId+'pfp'} className="w-[75px] aspect-square overflow-hidden" style={{borderRadius: '50px'}}>
-                                <img src={props.avatarUrl} alt="Profile Insta"/>
+                                {usingAvatarUrl?<img src={usingAvatarUrl} className="w-full h-full object-cover object-center" alt="Profile Insta"/>:<Ghost/>}
                             </motion.div>
 
                             <div className="flex flex-col gap-1">
@@ -115,27 +167,33 @@ export default function ViInstagram({layoutId='Vinima',usernameOnIdle=true, ...p
                                     {props.followButton && <MotionButton initial={{scale: 0.5, opacity: 0, y: 10}} animate={{scale: 1, opacity: 1, y: 0}} exit={{scale: 0.5, opacity: 0, y: 10, transition: {delay: 0}}} transition={{delay: 0.2}} size='sm' className={"h-6 px-2 py-1 text-xs "+(props.monotone?'':'text-white bg-[#0095f6] hover:bg-[#1877f2]')} onClick={()=>{window.open(typeof props.followButton=='string'?props.followButton:'https://www.instagram.com/'+props.username, '_blank')}}>Follow</MotionButton>}
                                 </div>
 
-                                {props.stats && <motion.div className="w-full flex justify-between gap-4 text-sm" exit={{y: 10, opacity: 0}} transition={{duration: 0.1}}>
+                                {((usingStats && usingStats.length>0) || props.fetchLatest?.includes('stats')) && <motion.div className="w-full flex justify-between gap-4 text-sm" exit={{y: 10, opacity: 0}} transition={{duration: 0.1}}>
                                         {
-                                            props.stats.map((item, index) => (
+                                            usingStats && usingStats.length>0?usingStats.map((item, index) => (
                                                 <motion.div key={index} initial={{opacity: 0, y: 10}} animate={{opacity: 1, y: 0}} transition={{delay: 0.2+index*0.07, bounce: 0}} className="flex gap-1">
                                                     <StaggeredText className="font-semibold" delay={0.2+index*0.07}>{item.value}</StaggeredText>
                                                     <motion.span initial={{opacity: 0}} animate={{opacity: 1, transition: {duration: 0.7}}}>{item.name}</motion.span>
                                                 </motion.div>
-                                            ))
+                                            )):<div className="w-[300px] h-4 rounded-md overflow-hidden relative"><Ghost/></div>
                                         }
                                 </motion.div>}
 
-                                {props.name && <motion.div exit={{y: 10, opacity: 0}} transition={{delay: 0}}>
-                                    <StaggeredText className="text-sm font-semibold" delay={0.2} stagger={0.01}>{props.name}</StaggeredText>
+                                {(props.fetchLatest?.includes('name') || props.name) && <motion.div exit={{y: 10, opacity: 0}} transition={{delay: 0}}>
+                                    {usingName?<StaggeredText className="text-sm font-semibold" delay={0.2} stagger={0.01}>{usingName}</StaggeredText>:<div className="w-[100px] h-4 rounded-md overflow-hidden relative"><Ghost/></div>}
                                 </motion.div>}
 
                             </div>
                         </div>
 
-                        {props.bio && <div>
-                            <motion.div className="text-sm" initial={{opacity: 0, y: 10}} animate={{opacity: 1, y: 0, transition: {delay: 0.2}}} exit={{opacity: 0, y: 10}} transition={{bounce: 0}}>{props.bio}</motion.div>
-                        </div>}
+                        {(props.fetchLatest?.includes('bio') || usingBio) && 
+                            <motion.div className="text-sm flex flex-col" initial={{opacity: 0, y: 10}} animate={{opacity: 1, y: 0, transition: {delay: 0.2}}} exit={{opacity: 0, y: 10}} transition={{bounce: 0}}>{usingBio?(decodeUnicodeEntities(usingBio)).split('\\n').map((line, i)=>(
+                                <motion.div className="x" initial={{y:10, opacity: 0}} animate={{y: 0, opacity: 1, transition: {delay: 0.3+0.05*i}}} exit={{y: -10, opacity: 0}} key={i}>{line}</motion.div>
+                            )):<>
+                                    <div className="w-[150px] h-4 rounded-md overflow-hidden relative"><Ghost/></div>
+                                    <div className="w-[100px] h-4 rounded-md overflow-hidden relative"><Ghost delay={0.2}/></div>
+                                    <div className="w-[120px] h-4 rounded-md overflow-hidden relative"><Ghost delay={0.4}/></div>
+                                </>}</motion.div>
+                        }
 
                         {props.posts && <div className="flex flex-wrap justify-start items-center w-[max-content] gap-4 max-w-[450px]">
                             {
@@ -157,7 +215,7 @@ export default function ViInstagram({layoutId='Vinima',usernameOnIdle=true, ...p
                     {
                         (props.posts||[]).map((post, i)=>componentState==('post '+i) ? <motion.div key='detailPostView' layoutId={layoutId+'component'} className="flex flex-col absolute bg-background border border-input rounded-md" style={expandDirection}>
                             <div className="flex p-2 gap-2 border-b border-input h-10 items-center text-sm relative">
-                                <motion.div layoutId={layoutId+'pfp'} className="inline-flex h-full aspect-square overflow-hidden" style={{borderRadius: '50px'}}><img src={props.avatarUrl} alt="Profile Insta"/></motion.div>
+                                <motion.div layoutId={layoutId+'pfp'} className="inline-flex h-full aspect-square overflow-hidden" style={{borderRadius: '50px'}}>{usingAvatarUrl?<img src={usingAvatarUrl} className="w-full h-full object-cover object-center" alt="Profile Insta"/>:<Ghost/>}</motion.div>
     
                                 <motion.span layoutId={layoutId+'username'} className="" style={{opacity: 1}}>{props.username}</motion.span>
     
@@ -239,6 +297,12 @@ function parseCaption(caption:string) {
 
     return result
 }
+
+function decodeUnicodeEntities(text:string) {
+    return text.replace(/&#x([0-9A-Fa-f]+);|&#(\d+);/g, (_, hex, dec) => {
+      return String.fromCodePoint(parseInt(hex || dec, 16));
+    });
+  }
 
 const BsX = () => (
     <svg
@@ -339,4 +403,10 @@ const MdVerified = ({style, size}:{style?:React.CSSProperties, size?:number}) =>
     </svg>
 )
 
-    
+const Ghost = ({width, height, delay}:{width?:number | string, height?:number | string, delay?: number})=>(
+    <div className="vinimaGhost bg-foreground/15 animate-pulse" style={{width:width || '100%', height:height || '100%', animationDelay: delay+'s'}}>
+        <svg id="10015.io" className="fill-foreground/20 blur-md animate-pulse" viewBox="0 0 480 480" width={width || '100%'} height={height || '100%'} xmlns="http://www.w3.org/2000/svg" xmlnsXlink="http://www.w3.org/1999/xlink" style={{animationDelay: delay+'s'}}>
+            <path d="M405,295.5Q393,351,349.5,398Q306,445,252,406.5Q198,368,144,358.5Q90,349,64.5,294.5Q39,240,54.5,178Q70,116,131.5,106.5Q193,97,238.5,101Q284,105,312.5,136Q341,167,379,203.5Q417,240,405,295.5Z" />
+        </svg>
+    </div>
+)

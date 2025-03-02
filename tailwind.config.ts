@@ -62,8 +62,11 @@ const config: Config = {
   			],
   			kanit: [
   				'Kanit',
-  				'sans-serif'
-  			]
+  				'sans-serif',
+  			],
+			geistmono: [
+				'var(--font-geist-mono)'
+			]
   		},
   		borderRadius: {
   			lg: 'var(--radius)',
