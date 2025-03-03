@@ -106,7 +106,7 @@ export default function Experience()
                                 previewParent?.classList.toggle('opacity-0');
                                 previewParent?.classList.toggle('pointer-events-none');
                             }}>
-                                <div className="py-2 px-4 bg-foreground bg-opacity-10 flex justify-center items-center rounded-full"><BsCursor style={{transform:'rotateY(180deg)'}} className="mr-2"/> Hover Over Me</div>
+                                <div className="py-2 px-4 bg-foreground/70 opacity-60 flex justify-center items-center rounded-full text-background"><BsCursor style={{transform:'rotateY(180deg)'}} className="mr-2"/> Hover Over Me</div>
                             </div>
                             {experience.previews.map((preview, previewi)=>(
                                 <iframe src={preview.link+"?background=1"} className={"w-screen h-screen object-cover absolute right-0 top-0"+(currentPreviews[experiencei]!=previewi?' hidden':'')} key={previewi}></iframe>
