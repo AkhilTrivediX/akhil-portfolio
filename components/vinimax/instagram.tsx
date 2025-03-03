@@ -128,7 +128,7 @@ export default function ViInstagram({layoutId='Vinima',usernameOnIdle=true, ...p
     return(
         <MotionConfig >
             <motion.main className="vinima relative flex justify-center"  onHoverStart={() => { setPreviousState(componentState);setComponentState('profile');}} onHoverEnd={() => { setPreviousState(componentState);setComponentState('idle')}}>
-            <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2" style={{width: hoverDivDimensions.width, height: hoverDivDimensions.height}} onMouseLeave={()=>{setHoverDivDimensions({width: '100%', height: '100%'});}}></div>
+            <div className="absolute bg-green-500 top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2" style={{width: hoverDivDimensions.width, height: hoverDivDimensions.height}} onMouseLeave={()=>{setHoverDivDimensions({width: '100%', height: '100%'});}}></div>
 
             <MotionButton variant='outline' className="gap-2 p-2 opacity-0 pointer-events-none">
 

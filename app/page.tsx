@@ -8,7 +8,7 @@ import Navbar from "@/components/navbar";
 
 export default function Home() {
   return (
-    <main className="dark bg-background text-foreground">
+    <main className="dark bg-background text-foreground slowTransition">
       
       <Navbar/>
       <div className="flex flex-col items-center max-w-screen max-h-screen overflow-x-hidden">
