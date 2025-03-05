@@ -50,7 +50,7 @@ export default function InstagramPage(){
         username: 'cats_of_instagram',
         avatarUrl: 'https://moderncat.com/wp-content/uploads/2013/09/Ragdoll-Header_bigstock-408978611_Rawlik-1440x980.jpg',
         name: 'Ragdoll',
-        stats: [{name: 'Followers', value: '2.9K'},{name:'Following', value: '845'}],
+        stats: [{name: 'Posts', value: '1,234'},{name: 'Followers', value: '2.9K'},{name:'Following', value: '845'}],
         bio: 'I\'m the best cat 😺',
         isVerified: true,
         monotone: false,

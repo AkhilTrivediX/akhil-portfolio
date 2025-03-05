@@ -2,7 +2,7 @@
 'use client'
 
 import {  useCallback, useEffect, useRef, useState } from "react";
-import { AnimatePresence, motion, MotionConfig } from "motion/react";
+import { AnimatePresence, LayoutGroup, motion} from "motion/react";
 import { Button } from "@/components/ui/button";
 
 export type InstaPostsType =  
@@ -16,7 +16,6 @@ export type InstaPostsType =
     dateTime?: string
 }[]
 type InstaData = {
-    layoutId?:string,
     avatarUrl?: string,
     username: string,
     name?: string,
@@ -34,7 +33,7 @@ type InstaData = {
 }
 const CAPTION_WORD_LIMIT = 30
 
-export default function ViInstagram({layoutId='Vinima',usernameOnIdle=true, ...props}: InstaData){
+export default function ViInstagram({usernameOnIdle=true, ...props}: InstaData){
     const [componentState, setComponentState] = useState('idle')
     const [previousState, setPreviousState] = useState('idle')
     const MotionButton = motion.create(Button)
@@ -45,10 +44,10 @@ export default function ViInstagram({layoutId='Vinima',usernameOnIdle=true, ...p
     const [usingBio, setUsingBio] = useState(props.bio || '')
     const [usingStats, setUsingStats] = useState(props.stats || [])
     const [hoverDivDimensions, setHoverDivDimensions] = useState({width: '100%', height: '100%'});
+    const [layoutId, setLayoutId] = useState('');
 
+    useEffect(()=>{setLayoutId(crypto.randomUUID())},[])
 
-
-    
 
     
     useEffect(()=>{
@@ -125,10 +124,17 @@ export default function ViInstagram({layoutId='Vinima',usernameOnIdle=true, ...p
         };
     }, []);
 
+    useEffect(()=>{
+
+        if(previousState=='profile' && componentState=='idle'){
+            setHoverDivDimensions({width: '100%', height: '100%'})
+        }
+    },[componentState, previousState])
+
     return(
-        <MotionConfig >
-            <motion.main className="vinima relative flex justify-center"  onHoverStart={() => { setPreviousState(componentState);setComponentState('profile');}} onHoverEnd={() => { setPreviousState(componentState);setComponentState('idle')}}>
-            <div className="absolute bg-green-500 top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2" style={{width: hoverDivDimensions.width, height: hoverDivDimensions.height}} onMouseLeave={()=>{setHoverDivDimensions({width: '100%', height: '100%'});}}></div>
+        <LayoutGroup key={layoutId}>
+            <motion.main className="vinima relative flex justify-center"  onMouseEnter={() => { setPreviousState(componentState);setComponentState('profile');}} onMouseLeave={() => { setPreviousState(componentState);setComponentState('idle')}}>
+            <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2" style={{width: hoverDivDimensions.width, height: hoverDivDimensions.height}} onMouseLeave={()=>{setHoverDivDimensions({width: '100%', height: '100%'});}}></div>
 
             <MotionButton variant='outline' className="gap-2 p-2 opacity-0 pointer-events-none">
 
@@ -165,7 +171,7 @@ export default function ViInstagram({layoutId='Vinima',usernameOnIdle=true, ...p
                                         <motion.div layoutId={layoutId+'username'} className="text-sm w-[max-content]" style={{opacity: 0.8}}>{props.username}</motion.div>
                                         {props.isVerified && <motion.div initial={{scale: 0.5,rotateZ:180, opacity: 0, y: 10}} animate={{scale: 1,rotateZ: 0, opacity: 1, y: 0}} exit={{scale: 0.5, opacity: 0, y: 10, transition: {delay: 0}}} transition={{delay: 0.2}} style={props.monotone?{}:{color: '#0095f6'}}><MdVerified /></motion.div>}
                                     </div>
-                                    {props.followButton && <MotionButton initial={{scale: 0.5, opacity: 0, y: 10}} animate={{scale: 1, opacity: 1, y: 0}} exit={{scale: 0.5, opacity: 0, y: 10, transition: {delay: 0}}} transition={{delay: 0.2}} size='sm' className={"h-6 px-2 py-1 text-xs "+(props.monotone?'':'text-white bg-[#0095f6] hover:bg-[#1877f2]')} onClick={()=>{window.open(typeof props.followButton=='string'?props.followButton:'https://www.instagram.com/'+props.username, '_blank')}}>Follow</MotionButton>}
+                                    {props.followButton && <MotionButton  initial={previousState=='idle'?{scale: 0.5, opacity: 0, y: 10}:{scale: 1, opacity: 1, y: 0}} animate={{scale: 1, opacity: 1, y: 0}} exit={{scale: 0.5, opacity: 0, y: 10, transition: {delay: 0}}} transition={{delay: 0.2}} size='sm' className={"h-6 px-2 py-1 text-xs "+(props.monotone?'':'text-white bg-[#0095f6] hover:bg-[#1877f2]')} onClick={()=>{window.open(typeof props.followButton=='string'?props.followButton:'https://www.instagram.com/'+props.username, '_blank')}}>Follow</MotionButton>}
                                 </div>
 
                                 {((usingStats && usingStats.length>0) || props.fetchLatest?.includes('stats')) && <motion.div className="w-full flex justify-between gap-4 text-sm" exit={{y: 10, opacity: 0}} transition={{duration: 0.1}}>
@@ -199,7 +205,7 @@ export default function ViInstagram({layoutId='Vinima',usernameOnIdle=true, ...p
                         {props.posts && <div className="flex flex-wrap justify-start items-center w-[max-content] gap-4 max-w-[450px]">
                             {
                                 props.posts.map((post, i)=>(
-                                    <motion.div layoutId={layoutId+'postImage '+i} initial={{scale: 0.5, opacity: 0, y: 10}} animate={{scale: 1, opacity: 1, y: 0, transition: {delay: 0.3+i*0.05}}} exit={{scale: 0.5, opacity: 0, y: -10, transition: {delay: 0}}} key={i} className="w-[100px] aspect-[4/5] border border-input rounded-sm overflow-hidden cursor-pointer relative" onClick={()=>{ setPreviousState(componentState);setComponentState('post '+i)}}>
+                                    <motion.div layoutId={layoutId+'postImage '+i} initial={previousState!=='post '+i?{scale: 0.5, opacity: 0, y: 10}:{}} animate={{scale: 1, opacity: 1, y: 0, transition: {delay: 0.3+i*0.05}}} exit={{scale: 0.5, opacity: 0, y: -10, transition: {delay: 0}}} key={i} className="w-[100px] aspect-[4/5] border border-input rounded-sm overflow-hidden cursor-pointer relative" onClick={()=>{ setPreviousState(componentState);setComponentState('post '+i)}}>
                                         <motion.img src={post.imageUrl} alt='instagram post' className="w-full h-full object-cover object-center"/>
                                         <div className="absolute w-full h-full top-0 left-0 bg-black/20 opacity-0 hover:opacity-100 transition-all duration-300 flex justify-center items-end p-2">
                                             <div className="flex gap-2 items-center justify-center text-xs opacity-90 text-white">
@@ -226,11 +232,11 @@ export default function ViInstagram({layoutId='Vinima',usernameOnIdle=true, ...p
                                     {post.dateTime && <StaggeredText className="text-sm opacity-70" delay={0.2} stagger={0.01}>{getReadableDate(post.dateTime)}</StaggeredText>}
                                 </motion.div>
 
-                                <div className="absolute top-1/2 -translate-y-1/2 right-2 cursor-pointer text-lg" onClick={()=>{{ setPreviousState(componentState);setComponentState('profile')}}}><BsX/></div>
+                                <div className="absolute top-1/2 -translate-y-1/2 right-2 cursor-pointer text-lg flex items-center justify-center" onClick={()=>{{ setPreviousState(componentState);setComponentState('profile')}}}><BsX className="flex items-center justify-center"/></div>
                             </div>
     
                             <div className="p-1">
-                                <motion.div className="w-[300px] aspect-[4/5] border border-input rounded-sm overflow-hidden" layoutId={layoutId+'postImage '+i} initial={{opacity:1, y: 10}} animate={{opacity:1, y:0}} exit={{scale: 0.5,opacity: 0, y: 10, transition: {delay:0, duration: 0.1}}}>
+                                <motion.div className="w-[300px] aspect-[4/5] border border-input rounded-sm overflow-hidden" layoutId={layoutId+'postImage '+i} initial={{opacity:1, y: 10}} animate={{opacity:1, y:0}} exit={{scale: 0.5,opacity: 0, y: 10}}>
                                     <motion.img src={post.imageUrl} alt='instagram post' className="w-full h-full object-cover object-center"/>
                                 </motion.div>
                                 <div className="flex gap-3 text-sm p-2 pb-0 font-semibold opacity-80">
@@ -247,7 +253,7 @@ export default function ViInstagram({layoutId='Vinima',usernameOnIdle=true, ...p
                     }
                 </AnimatePresence>
             </motion.main>
-        </MotionConfig>
+        </LayoutGroup>
     )
 }
 
@@ -307,12 +313,12 @@ function decodeUnicodeEntities(text:string) {
     });
   }
 
-const BsX = () => (
+const BsX = ({className}:{className:string}) => (
     <svg
         xmlns="http://www.w3.org/2000/svg"
         fill="currentColor"
-        viewBox="0 0 24 24"
-        className="w-6 h-6"
+        viewBox="0 0 12 12"
+        className={"w-[12px] h-[12px] "+className}
     >
         <path
         strokeLinecap="round"
